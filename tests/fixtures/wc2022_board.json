@@ -1,0 +1,967 @@
+{
+ "reference": "2022 group stage (48 matches)",
+ "floor_m": 0.021208755719653485,
+ "n": 64,
+ "board": [
+  {
+   "match_id": 3869685,
+   "rank": 1,
+   "raw": 1.1823242127156646,
+   "home": "Argentina",
+   "away": "France",
+   "stage": "Final",
+   "buckets": {
+    "stakes": 0.2481640054002039,
+    "chances": 0.21417422965281105,
+    "drama": 0.21065417088094887,
+    "spectacle": 0.18495601444830237,
+    "payoff": 0.32437579233339836
+   }
+  },
+  {
+   "match_id": 3869420,
+   "rank": 2,
+   "raw": 0.8509044097206637,
+   "home": "Croatia",
+   "away": "Brazil",
+   "stage": "Quarter-finals",
+   "buckets": {
+    "stakes": 0.21977172350273136,
+    "chances": 0.06704466895793122,
+    "drama": 0.21532287093513575,
+    "spectacle": 0.17064501490154574,
+    "payoff": 0.17812013142331956
+   }
+  },
+  {
+   "match_id": 3857292,
+   "rank": 3,
+   "raw": 0.7578538701099545,
+   "home": "Costa Rica",
+   "away": "Germany",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.15360485393757628,
+    "chances": 0.3722555830621632,
+    "drama": 0.18408277591749955,
+    "spectacle": 0.17726073407222623,
+    "payoff": 0.17785963099564178
+   }
+  },
+  {
+   "match_id": 3857284,
+   "rank": 4,
+   "raw": 0.5864547361918052,
+   "home": "Germany",
+   "away": "Japan",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.08344124736045472,
+    "chances": 0.2394167404184446,
+    "drama": 0.1536104992345456,
+    "spectacle": 0.0287077558716399,
+    "payoff": 0.08127849330672028
+   }
+  },
+  {
+   "match_id": 3857259,
+   "rank": 5,
+   "raw": 0.5411454547879436,
+   "home": "Cameroon",
+   "away": "Serbia",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": 0.15663361969317163,
+    "drama": 0.10624329130538568,
+    "spectacle": 0.10048254099698321,
+    "payoff": 0.1777860027924031
+   }
+  },
+  {
+   "match_id": 3869321,
+   "rank": 6,
+   "raw": 0.537697568063186,
+   "home": "Netherlands",
+   "away": "Argentina",
+   "stage": "Quarter-finals",
+   "buckets": {
+    "stakes": 0.20938474433544937,
+    "chances": -0.041232855140986006,
+    "drama": 0.09568496505880428,
+    "spectacle": 0.08518541870195553,
+    "payoff": 0.18867529510796294
+   }
+  },
+  {
+   "match_id": 3857256,
+   "rank": 7,
+   "raw": 0.47969102570865974,
+   "home": "Serbia",
+   "away": "Switzerland",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": 0.21442472444813382,
+    "drama": 0.1872224644796979,
+    "spectacle": -0.048028480939993526,
+    "payoff": 0.1260723177208216
+   }
+  },
+  {
+   "match_id": 3869354,
+   "rank": 8,
+   "raw": 0.44413279859443744,
+   "home": "England",
+   "away": "France",
+   "stage": "Quarter-finals",
+   "buckets": {
+    "stakes": 0.19511681489714583,
+    "chances": 0.11291253298411813,
+    "drama": 0.07471545530620868,
+    "spectacle": 0.005509634238476505,
+    "payoff": 0.05587836116848832
+   }
+  },
+  {
+   "match_id": 3857262,
+   "rank": 9,
+   "raw": 0.4410118288294763,
+   "home": "South Korea",
+   "away": "Portugal",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.046411125773194346,
+    "chances": 0.08787166973269625,
+    "drama": 0.21727997046132708,
+    "spectacle": 0.03253485617721189,
+    "payoff": 0.05691420668504671
+   }
+  },
+  {
+   "match_id": 3869219,
+   "rank": 10,
+   "raw": 0.3802717919488922,
+   "home": "Japan",
+   "away": "Croatia",
+   "stage": "Round of 16",
+   "buckets": {
+    "stakes": 0.21622682275782684,
+    "chances": -0.001090189836967969,
+    "drama": -0.013248169796428847,
+    "spectacle": 0.06960924747896306,
+    "payoff": 0.10877408134549908
+   }
+  },
+  {
+   "match_id": 3857266,
+   "rank": 11,
+   "raw": 0.3720680792795541,
+   "home": "France",
+   "away": "Denmark",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": 0.07888645622557455,
+    "drama": 0.12377179825230833,
+    "spectacle": 0.08041717762818959,
+    "payoff": 0.08899264717348168
+   }
+  },
+  {
+   "match_id": 3857273,
+   "rank": 12,
+   "raw": 0.3110658657328871,
+   "home": "Wales",
+   "away": "Iran",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.019621627502175998,
+    "chances": 0.048793495649152155,
+    "drama": 0.19719845980109746,
+    "spectacle": 0.07577388790272205,
+    "payoff": 0.008921649882091424
+   }
+  },
+  {
+   "match_id": 3857296,
+   "rank": 13,
+   "raw": 0.22831394296505136,
+   "home": "Croatia",
+   "away": "Belgium",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.059697295787906675,
+    "chances": 0.19417660558315752,
+    "drama": 0.014246578210486287,
+    "spectacle": 0.06548483466134598,
+    "payoff": -0.10529137127784513
+   }
+  },
+  {
+   "match_id": 3857263,
+   "rank": 14,
+   "raw": 0.20200857318681367,
+   "home": "Spain",
+   "away": "Germany",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.03320438633689779,
+    "chances": -0.02901063542657327,
+    "drama": 0.1286071801334655,
+    "spectacle": 0.04494577769992809,
+    "payoff": 0.024261864443095565
+   }
+  },
+  {
+   "match_id": 3869684,
+   "rank": 15,
+   "raw": 0.19031775450339486,
+   "home": "Croatia",
+   "away": "Morocco",
+   "stage": "3rd Place Final",
+   "buckets": {
+    "stakes": 0.19546270532861637,
+    "chances": -0.053360957472840385,
+    "drama": 0.014908871993007743,
+    "spectacle": 0.004036042062849995,
+    "payoff": 0.029271092591761125
+   }
+  },
+  {
+   "match_id": 3857280,
+   "rank": 16,
+   "raw": 0.1611623970451217,
+   "home": "Cameroon",
+   "away": "Brazil",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": 0.10706016960358601,
+    "drama": 0.112418607914621,
+    "spectacle": -0.03644793112890057,
+    "payoff": -0.02186844934418474
+   }
+  },
+  {
+   "match_id": 3857299,
+   "rank": 17,
+   "raw": 0.13890236839618766,
+   "home": "South Korea",
+   "away": "Ghana",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.07228362768093888,
+    "chances": -0.032253178209322,
+    "drama": 0.02104604424288641,
+    "spectacle": -0.05191439733155972,
+    "payoff": 0.1297402720132441
+   }
+  },
+  {
+   "match_id": 3857255,
+   "rank": 18,
+   "raw": 0.12468150747018958,
+   "home": "Japan",
+   "away": "Spain",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.05518923491060639,
+    "chances": -0.0468265639266652,
+    "drama": 0.046851013071774764,
+    "spectacle": 0.04423555758810123,
+    "payoff": 0.025232265826372367
+   }
+  },
+  {
+   "match_id": 3857282,
+   "rank": 19,
+   "raw": 0.09399203290228504,
+   "home": "United States",
+   "away": "Wales",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.05221728574233563,
+    "chances": -0.039275534544534564,
+    "drama": 0.08175332193397139,
+    "spectacle": -0.010966915564800162,
+    "payoff": 0.010263875335312728
+   }
+  },
+  {
+   "match_id": 3857267,
+   "rank": 20,
+   "raw": 0.08503749422404323,
+   "home": "Ecuador",
+   "away": "Senegal",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.06848295093331006,
+    "chances": 0.008146383122710578,
+    "drama": 0.04095568174103032,
+    "spectacle": -0.10081590367722204,
+    "payoff": 0.06826838210421432
+   }
+  },
+  {
+   "match_id": 3869117,
+   "rank": 21,
+   "raw": 0.08163267041712885,
+   "home": "Netherlands",
+   "away": "United States",
+   "stage": "Round of 16",
+   "buckets": {
+    "stakes": -0.06550618234020869,
+    "chances": 0.09424216265946456,
+    "drama": -0.015245999621135108,
+    "spectacle": 0.03520978781483301,
+    "payoff": 0.03293290190417508
+   }
+  },
+  {
+   "match_id": 3869486,
+   "rank": 22,
+   "raw": 0.07411307088208063,
+   "home": "Morocco",
+   "away": "Portugal",
+   "stage": "Quarter-finals",
+   "buckets": {
+    "stakes": 0.21895964963754938,
+    "chances": -0.018015650953740907,
+    "drama": 0.00863163085664764,
+    "spectacle": -0.07779401953542889,
+    "payoff": -0.05766853912294658
+   }
+  },
+  {
+   "match_id": 3869220,
+   "rank": 23,
+   "raw": 0.06945921635013552,
+   "home": "Morocco",
+   "away": "Spain",
+   "stage": "Round of 16",
+   "buckets": {
+    "stakes": 0.16551179861932314,
+    "chances": -0.08780375980256482,
+    "drama": -0.08824875646327403,
+    "spectacle": 0.06130938641457688,
+    "payoff": 0.01869054758207435
+   }
+  },
+  {
+   "match_id": 3857281,
+   "rank": 24,
+   "raw": 0.06050280176131562,
+   "home": "Croatia",
+   "away": "Canada",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.257922937695113,
+    "chances": 0.07469895017791106,
+    "drama": 0.0285948516264424,
+    "spectacle": 0.12516271544564894,
+    "payoff": 0.08996922220642621
+   }
+  },
+  {
+   "match_id": 3857278,
+   "rank": 25,
+   "raw": 0.045685292219947105,
+   "home": "Iran",
+   "away": "United States",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.06947447495769665,
+    "chances": 0.002111707092948587,
+    "drama": -0.05986615900994083,
+    "spectacle": 0.09359260490067908,
+    "payoff": -0.05962733572143639
+   }
+  },
+  {
+   "match_id": 3869253,
+   "rank": 26,
+   "raw": 0.0212087557196535,
+   "home": "Brazil",
+   "away": "South Korea",
+   "stage": "Round of 16",
+   "buckets": {
+    "stakes": -0.048268729565226376,
+    "chances": 0.10824259126137806,
+    "drama": -0.16573158682939187,
+    "spectacle": 0.09989712155178808,
+    "payoff": 0.027069359301105645
+   }
+  },
+  {
+   "match_id": 3869254,
+   "rank": 26,
+   "raw": 0.0212087557196535,
+   "home": "Portugal",
+   "away": "Switzerland",
+   "stage": "Round of 16",
+   "buckets": {
+    "stakes": -0.018746619099526796,
+    "chances": 0.032348604093908884,
+    "drama": -0.0864376880464186,
+    "spectacle": 0.007515493704861936,
+    "payoff": 0.08652896506682813
+   }
+  },
+  {
+   "match_id": 3857264,
+   "rank": 29,
+   "raw": 0.021208755719653485,
+   "home": "Poland",
+   "away": "Argentina",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.04030405372504377,
+    "chances": 0.12325369599231303,
+    "drama": -0.06575004070098395,
+    "spectacle": 0.021525058116310898,
+    "payoff": -0.01751590396294275
+   }
+  },
+  {
+   "match_id": 3857297,
+   "rank": 29,
+   "raw": 0.021208755719653485,
+   "home": "Poland",
+   "away": "Saudi Arabia",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.11421594604426392,
+    "chances": 0.20477927151553538,
+    "drama": 0.009676564987156374,
+    "spectacle": -0.05520773837079116,
+    "payoff": -0.023823396367983207
+   }
+  },
+  {
+   "match_id": 3869519,
+   "rank": 29,
+   "raw": 0.021208755719653485,
+   "home": "Argentina",
+   "away": "Croatia",
+   "stage": "Semi-finals",
+   "buckets": {
+    "stakes": 0.11112029772323405,
+    "chances": -0.05680943473763873,
+    "drama": -0.1378052362695058,
+    "spectacle": 0.1189967440070524,
+    "payoff": -0.014293615003488443
+   }
+  },
+  {
+   "match_id": 3857298,
+   "rank": 29,
+   "raw": 0.021208755719653485,
+   "home": "Portugal",
+   "away": "Ghana",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.10407273414612,
+    "chances": 0.009850295930146732,
+    "drama": -0.0071103948831029995,
+    "spectacle": 0.03677676734090435,
+    "payoff": 0.08576482147782541
+   }
+  },
+  {
+   "match_id": 3869152,
+   "rank": 32,
+   "raw": 0.02120875571965347,
+   "home": "France",
+   "away": "Poland",
+   "stage": "Round of 16",
+   "buckets": {
+    "stakes": -0.004806714730094086,
+    "chances": -0.029953394691294582,
+    "drama": -0.034343181588742985,
+    "spectacle": 0.06612001452323474,
+    "payoff": 0.0241920322065504
+   }
+  },
+  {
+   "match_id": 3857258,
+   "rank": 33,
+   "raw": 0.017320529388223187,
+   "home": "Brazil",
+   "away": "Serbia",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": 0.05848821152729172,
+    "drama": -0.06518003983271262,
+    "spectacle": 0.035882415998438014,
+    "payoff": -0.011870058304793934
+   }
+  },
+  {
+   "match_id": 3857270,
+   "rank": 34,
+   "raw": 0.016132609295466664,
+   "home": "Portugal",
+   "away": "Uruguay",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.013330010332208025,
+    "chances": 0.033954263373340086,
+    "drama": 0.015525993136989094,
+    "spectacle": -0.019920147429857087,
+    "payoff": -0.026757510117213456
+   }
+  },
+  {
+   "match_id": 3857268,
+   "rank": 35,
+   "raw": 0.008905725267865336,
+   "home": "Belgium",
+   "away": "Canada",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.07288474825365271,
+    "chances": 0.03571723785899702,
+    "drama": -0.050109027547004116,
+    "spectacle": 0.005510816784453755,
+    "payoff": -0.05509805008223402
+   }
+  },
+  {
+   "match_id": 3869552,
+   "rank": 36,
+   "raw": -0.011140919697548745,
+   "home": "France",
+   "away": "Morocco",
+   "stage": "Semi-finals",
+   "buckets": {
+    "stakes": 0.13404264117435927,
+    "chances": -0.018694907515701263,
+    "drama": -0.1326763663198222,
+    "spectacle": 0.0476780985591717,
+    "payoff": -0.04149038559555627
+   }
+  },
+  {
+   "match_id": 3857283,
+   "rank": 37,
+   "raw": -0.028647031496691757,
+   "home": "Belgium",
+   "away": "Morocco",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.05831695302366761,
+    "chances": -0.03855962789178391,
+    "drama": -0.0015191578318098052,
+    "spectacle": -0.03372022951976991,
+    "payoff": -0.013164969276995732
+   }
+  },
+  {
+   "match_id": 3857260,
+   "rank": 38,
+   "raw": -0.03399368197535131,
+   "home": "Saudi Arabia",
+   "away": "Mexico",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.018878176262254284,
+    "chances": 0.10413924657348722,
+    "drama": -0.10445094677816273,
+    "spectacle": 0.0035381580219589377,
+    "payoff": -0.01834196353038046
+   }
+  },
+  {
+   "match_id": 3857285,
+   "rank": 39,
+   "raw": -0.03520637223206116,
+   "home": "Senegal",
+   "away": "Netherlands",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0016694860033871495,
+    "chances": 7.651342020789306e-05,
+    "drama": 0.06330749030890849,
+    "spectacle": -0.09001667149545683,
+    "payoff": -0.010243190469107866
+   }
+  },
+  {
+   "match_id": 3857254,
+   "rank": 40,
+   "raw": -0.05283914286516813,
+   "home": "Denmark",
+   "away": "Tunisia",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": 0.11405639781906551,
+    "drama": -0.025183062264202274,
+    "spectacle": -0.03642110714218625,
+    "payoff": -0.10529137127784513
+   }
+  },
+  {
+   "match_id": 3857261,
+   "rank": 41,
+   "raw": -0.06990396180881407,
+   "home": "Wales",
+   "away": "England",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": 0.012837800894500331,
+    "drama": -0.05020609146761129,
+    "spectacle": -0.0431099196361585,
+    "payoff": 0.010574248400455368
+   }
+  },
+  {
+   "match_id": 3857279,
+   "rank": 42,
+   "raw": -0.0747578373471879,
+   "home": "France",
+   "away": "Australia",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.04896957475383722,
+    "chances": -0.048482024086739454,
+    "drama": -0.04948815830396671,
+    "spectacle": 0.010527048021893234,
+    "payoff": 0.06165487177546225
+   }
+  },
+  {
+   "match_id": 3857290,
+   "rank": 43,
+   "raw": -0.07484721886812092,
+   "home": "Switzerland",
+   "away": "Cameroon",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": -0.013882261819339664,
+    "drama": -0.04189598061686217,
+    "spectacle": 0.03534068137436681,
+    "payoff": -0.054409657806285885
+   }
+  },
+  {
+   "match_id": 3857276,
+   "rank": 44,
+   "raw": -0.07869441891872155,
+   "home": "Canada",
+   "away": "Morocco",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.094185622354843,
+    "chances": -0.11766400303427849,
+    "drama": -0.033361481765818345,
+    "spectacle": -0.017262873008411218,
+    "payoff": -0.004591683465056496
+   }
+  },
+  {
+   "match_id": 3857300,
+   "rank": 45,
+   "raw": -0.07896953233690561,
+   "home": "Argentina",
+   "away": "Saudi Arabia",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.01774018469622532,
+    "chances": -0.034153538065301366,
+    "drama": 0.031329079350811924,
+    "spectacle": -0.03946150151761803,
+    "payoff": -0.018943387408572827
+   }
+  },
+  {
+   "match_id": 3857269,
+   "rank": 46,
+   "raw": -0.09900094491078802,
+   "home": "Brazil",
+   "away": "Switzerland",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.01214747354430126,
+    "chances": -0.12984866612683615,
+    "drama": 0.06711068730129147,
+    "spectacle": -0.0187472532005684,
+    "payoff": -0.029663186428976206
+   }
+  },
+  {
+   "match_id": 3869151,
+   "rank": 47,
+   "raw": -0.11315954754042512,
+   "home": "Argentina",
+   "away": "Australia",
+   "stage": "Round of 16",
+   "buckets": {
+    "stakes": 0.08306358161362755,
+    "chances": -0.10052556743996881,
+    "drama": -0.08497670741317657,
+    "spectacle": 0.010948037514466364,
+    "payoff": -0.02166889181537366
+   }
+  },
+  {
+   "match_id": 3857293,
+   "rank": 48,
+   "raw": -0.11368846119665768,
+   "home": "Ghana",
+   "away": "Uruguay",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.06239523755591947,
+    "chances": 0.042614060062901686,
+    "drama": -0.12657343838013155,
+    "spectacle": 0.07882071650673361,
+    "payoff": -0.04615456183024196
+   }
+  },
+  {
+   "match_id": 3857291,
+   "rank": 49,
+   "raw": -0.1170487826070501,
+   "home": "Spain",
+   "away": "Costa Rica",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": -0.1403207366959219,
+    "drama": -0.11724825613655909,
+    "spectacle": 0.047713604121383764,
+    "payoff": 0.09280660610404715
+   }
+  },
+  {
+   "match_id": 3857257,
+   "rank": 50,
+   "raw": -0.12354077488544778,
+   "home": "Australia",
+   "away": "Denmark",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": -0.0556173061486433,
+    "drama": -0.04168212512538113,
+    "spectacle": 0.022579202420250615,
+    "payoff": -0.048820546031673955
+   }
+  },
+  {
+   "match_id": 3857295,
+   "rank": 51,
+   "raw": -0.14087259249487602,
+   "home": "Japan",
+   "away": "Costa Rica",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.0,
+    "chances": -0.1848358785463196,
+    "drama": 0.04273367509869491,
+    "spectacle": 0.03399072889146682,
+    "payoff": -0.03276111793871818
+   }
+  },
+  {
+   "match_id": 3857271,
+   "rank": 52,
+   "raw": -0.17421048436157388,
+   "home": "England",
+   "away": "Iran",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.05670455493219353,
+    "chances": -0.0950879307349913,
+    "drama": -0.1167458824895132,
+    "spectacle": 0.0056445767567284005,
+    "payoff": 0.08868330703839573
+   }
+  },
+  {
+   "match_id": 3869118,
+   "rank": 53,
+   "raw": -0.18379921183125827,
+   "home": "England",
+   "away": "Senegal",
+   "stage": "Round of 16",
+   "buckets": {
+    "stakes": 0.13532244209354827,
+    "chances": -0.1237663817401421,
+    "drama": -0.08254966770359758,
+    "spectacle": -0.103688415348981,
+    "payoff": -0.00911718913208589
+   }
+  },
+  {
+   "match_id": 3857265,
+   "rank": 54,
+   "raw": -0.19987111198906382,
+   "home": "Mexico",
+   "away": "Poland",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.05221728574233563,
+    "chances": -0.05330446196942122,
+    "drama": -0.06558728936341408,
+    "spectacle": -0.027905275120719004,
+    "payoff": -0.10529137127784513
+   }
+  },
+  {
+   "match_id": 3857274,
+   "rank": 55,
+   "raw": -0.20782223128185887,
+   "home": "Netherlands",
+   "away": "Ecuador",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.048936303244280235,
+    "chances": -0.13925895606071204,
+    "drama": -0.038042810874443785,
+    "spectacle": -0.06506249717601252,
+    "payoff": -0.014394270414970798
+   }
+  },
+  {
+   "match_id": 3857272,
+   "rank": 56,
+   "raw": -0.23521770439331852,
+   "home": "England",
+   "away": "United States",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.07620871425436478,
+    "chances": -0.08394901760899813,
+    "drama": -0.08757035619666255,
+    "spectacle": -0.03461567356417748,
+    "payoff": -0.10529137127784513
+   }
+  },
+  {
+   "match_id": 3857277,
+   "rank": 57,
+   "raw": -0.24479306706458184,
+   "home": "Morocco",
+   "away": "Croatia",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.06042028943993466,
+    "chances": -0.0932303330852536,
+    "drama": -0.06941488256873461,
+    "spectacle": -0.03727676957268317,
+    "payoff": -0.10529137127784513
+   }
+  },
+  {
+   "match_id": 3857288,
+   "rank": 58,
+   "raw": -0.2752056109607659,
+   "home": "Tunisia",
+   "away": "Australia",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.03281457264289352,
+    "chances": -0.08305212381761029,
+    "drama": -0.10360277193229567,
+    "spectacle": 0.011522188516415979,
+    "payoff": -0.06725833108438238
+   }
+  },
+  {
+   "match_id": 3857275,
+   "rank": 59,
+   "raw": -0.297719047332089,
+   "home": "Tunisia",
+   "away": "France",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.044488211398461104,
+    "chances": -0.1410570488714373,
+    "drama": -0.037089041478881035,
+    "spectacle": -0.009340005170677264,
+    "payoff": -0.0657447404126322
+   }
+  },
+  {
+   "match_id": 3857301,
+   "rank": 60,
+   "raw": -0.3465360096350592,
+   "home": "Qatar",
+   "away": "Senegal",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.10031717770237977,
+    "chances": -0.08964785823979521,
+    "drama": -0.11197754360753037,
+    "spectacle": -0.047325009513621966,
+    "payoff": 0.0027315794282680847
+   }
+  },
+  {
+   "match_id": 3857289,
+   "rank": 61,
+   "raw": -0.39408713660324823,
+   "home": "Argentina",
+   "away": "Mexico",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.029309509690412357,
+    "chances": -0.23413486283275695,
+    "drama": -0.03501610204933589,
+    "spectacle": -0.13146773134308476,
+    "payoff": -0.022777950068483047
+   }
+  },
+  {
+   "match_id": 3857287,
+   "rank": 62,
+   "raw": -0.4295188479541283,
+   "home": "Uruguay",
+   "away": "South Korea",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": 0.04459153208866354,
+    "chances": -0.121909445482134,
+    "drama": -0.079306775000729,
+    "spectacle": -0.1676027882820838,
+    "payoff": -0.10529137127784513
+   }
+  },
+  {
+   "match_id": 3857294,
+   "rank": 63,
+   "raw": -0.518870991031282,
+   "home": "Netherlands",
+   "away": "Qatar",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.14295949806515393,
+    "chances": -0.10844056952053334,
+    "drama": -0.19983118633450717,
+    "spectacle": -0.010018106948883334,
+    "payoff": -0.05762163016220412
+   }
+  },
+  {
+   "match_id": 3857286,
+   "rank": 64,
+   "raw": -0.5719632879698534,
+   "home": "Qatar",
+   "away": "Ecuador",
+   "stage": "Group Stage",
+   "buckets": {
+    "stakes": -0.10859460033002818,
+    "chances": -0.18582829841537835,
+    "drama": -0.1725796112247468,
+    "spectacle": -0.05038463118691548,
+    "payoff": -0.05457614681278452
+   }
+  }
+ ]
+}

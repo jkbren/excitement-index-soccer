@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "excitement-index-soccer"
+version = "1.4.0"
+description = "A transparent, weighted excitement rating for soccer matches, computed from StatsBomb event data (the NetSI Sport / Northeastern Global News World Cup 2026 index, v1.4)."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [{ name = "NetSI Sport (Northeastern University Network Science Institute)" }]
+keywords = ["soccer", "football", "statsbomb", "sports-analytics", "excitement", "world-cup"]
+dependencies = [
+    "numpy>=1.22",
+    "pandas>=1.5",
+    "scipy>=1.9",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4", "jupyter", "matplotlib"]
+
+[project.urls]
+Homepage = "https://github.com/bkleinNU/excitement-index-soccer"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "NPY"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
