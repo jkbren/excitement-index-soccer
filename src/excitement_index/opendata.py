@@ -71,9 +71,17 @@ def load_matches(competition_name: str, season_name: str) -> pd.DataFrame:
         "away": m["away_team"]["away_team_name"],
         "score_home": m.get("home_score"),
         "score_away": m.get("away_score"),
-        "stage": (m.get("competition_stage") or {}).get("name", ""),
+        "stage": _normalize_stage((m.get("competition_stage") or {}).get("name", "")),
     } for m in raw])
     return out.sort_values("match_date").reset_index(drop=True)
+
+
+def _normalize_stage(stage: str) -> str:
+    """Open-data stage names onto the index's conventions: lower-cased, with
+    ``"Group Stage"`` mapped to ``"group"`` (the knockout flag tests equality
+    with ``"group"``, so the spelling matters)."""
+    s = str(stage).strip().lower()
+    return "group" if s in {"group stage", "group"} else s
 
 
 # Nested open-data fields -> flat event-frame columns. Each entry is
@@ -103,6 +111,17 @@ _FIELDS = [
     ("shot_one_on_one", ("shot", "one_on_one")),
     ("foul_committed_card", ("foul_committed", "card", "name")),
     ("bad_behaviour_card", ("bad_behaviour", "card", "name")),
+    # Timing / restart / stop-marker fields the ball-in-play estimator
+    # (excitement_index.bip) differences to find dead time.
+    ("timestamp", ("timestamp",)),
+    ("duration", ("duration",)),
+    ("out", ("out",)),
+    ("pass_type", ("pass", "type", "name")),
+    ("foul_committed_advantage", ("foul_committed", "advantage")),
+    ("foul_won_advantage", ("foul_won", "advantage")),
+    ("goalkeeper_outcome", ("goalkeeper", "outcome", "name")),
+    ("duel_outcome", ("duel", "outcome", "name")),
+    ("interception_outcome", ("interception", "outcome", "name")),
 ]
 
 

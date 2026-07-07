@@ -8,3 +8,4 @@ dist/
 .ipynb_checkpoints/
 .opendata_cache/
 .DS_Store
+wc2022_features.parquet
