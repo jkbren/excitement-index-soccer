@@ -1,16 +1,14 @@
 # excitement-index-soccer
 
-**A transparent, reproducible 0–10 excitement rating for soccer matches, computed purely
-from event data.** This is the open implementation of the match excitement index built by
-NetSI Sport (Northeastern University Network Science Institute) for Northeastern Global
-News' coverage of the 2026 FIFA World Cup — version 1.4, the frozen index behind the
-published board.
+A 0-10 excitement rating for soccer matches, computed from StatsBomb event data. This
+repository contains the open implementation of the match excitement index built by NetSI
+Sport (Northeastern University Network Science Institute) for Northeastern Global News'
+coverage of the 2026 FIFA World Cup (version 1.4, the index behind the published board).
 
-No fan votes, no player fame, no storylines: the rating is a weighted composite of ~57
-on-field measures, standardized against a tournament benchmark, with two explicit
-"tension taxes" for what a match did or didn't have at stake. It is **not machine
-learning** — no parameter is fitted to preference data — and every published score
-decomposes exactly into five readable ingredient buckets.
+The rating is a weighted linear composite of approximately 57 per-match measures,
+standardized against a tournament benchmark, with two rule-based deductions for the
+match's competitive context. No parameter is fitted to fan ratings or other preference
+data. Every published score decomposes exactly into five ingredient buckets.
 
 ```python
 from excitement_index import opendata, build_feature_matrix, score_matches
@@ -21,57 +19,72 @@ board    = score_matches(features)                            # best match first
 print(board[["home", "away", "rating"]].head(10))
 ```
 
-Run on the freely available 2022 World Cup data, the index ranks the Argentina–France
-final — arguably the greatest final ever played — **#1 of 64 matches**, with frozen
-weights that never saw a single 2022 match during selection.
+Applied to the 2022 World Cup (freely available open data), the index rates the
+Argentina-France final 9.59 and ranks it first of the 64 matches. The weights were
+selected on 2026 data only; no 2022 match was used in their selection.
 
-## How the score is built
+## Method
 
-1. **Events → measures.** Each match's StatsBomb event record (~3,500 events) is reduced
-   to ~57 scalar measures across eleven sub-families — from simple counts (shots on
-   target, completed dribbles, late goals) to model-based quantities derived from a
-   goals-only Poisson/Skellam **win-probability curve** with Elo team-strength priors
-   (total probability movement, sustained uncertainty, each chance weighted by the swing
-   it would have caused).
-2. **Standardization.** Every measure is z-scored against a fixed reference pool (the
-   tournament's group stage), clipped to ±3, and signed (cards and dead stretches count
-   against).
-3. **Weighted averaging.** Equal-weight means within sub-families, fixed weights across
-   them, rolling up to five display buckets: **Stakes 24% · Spectacle 23% · Chances 20% ·
-   Drama 20% · Payoff 12%**. Linear all the way down: the five bucket values sum exactly
-   to the raw score.
-4. **Two tension taxes.** A *dead-rubber tax* — a group game where qualification hinged on
-   nothing (Monte-Carlo simulated) keeps only ~60% of its quality score — and a
-   knockout-only *aliveness tax* for games whose outcome died early, floored so deadness
-   makes a match mediocre, never historically bad. Comebacks and extra-time epics are
-   untouched by construction.
-5. **The 0–10 scale.** A strictly monotone quantile map calibrated to how people actually
-   use rating scales; 0.0 and 10.0 are asymptotes, unattainable by design.
+1. **Feature computation.** Each match's event record (~3,500 events) is reduced to ~57
+   scalar measures, organized into eleven sub-families. Measures range from counts (shots
+   on target, completed dribbles, goals after the 80th minute) to quantities derived from
+   a win-probability model: a Poisson/Skellam process over the remaining goal margin,
+   updated at each goal, with team-strength priors from Elo ratings. Derived measures
+   include the total movement of the win-probability curve, the time-averaged outcome
+   uncertainty, and each shot weighted by the probability swing it would have caused had
+   it scored. The full catalog with definitions and thresholds is in
+   [`docs/TECHNICAL_APPENDIX.md`](docs/TECHNICAL_APPENDIX.md).
+2. **Standardization.** Each measure is z-scored against a fixed reference pool (the
+   tournament's group stage): z = (x - mean) / (sd + 1e-6), clipped to [-3, +3]. Four
+   measures carry negative sign (cards, red cards, sterile-possession share, dead-air
+   stretches). Bounded 0/1 flags enter at a fixed scale instead of a z-score.
+3. **Aggregation.** Z-scores are averaged with equal weight within each sub-family; the
+   sub-family means are combined as a weighted sum. For presentation the sub-families are
+   grouped into five buckets: Stakes (24%), Spectacle (23%), Chances (20%), Drama (20%),
+   Payoff (12%). Because the composite is linear, the five bucket values sum exactly to
+   the raw score.
+4. **Context deductions.** (a) A dead-rubber deduction: for group matches, qualification
+   jeopardy is estimated by Monte-Carlo simulation of the remaining group fixtures
+   (P(advance if win) - P(advance if lose), averaged over both teams); a match retains
+   1 - 0.40 x (1 - jeopardy) of its positive composite score. Knockout matches have
+   jeopardy 1 and are not deducted. (b) An aliveness deduction, knockout matches only:
+   0.60 x (1 - A), where A is the mean of the fraction of the match elapsed before the
+   score margin moved beyond one goal for good and the share of the final 30 minutes
+   spent within one goal. The deduction is capped so that no match falls below the
+   reference pool's median raw score. A knockout match that stayed within one goal
+   throughout (including all extra-time matches) has A = 1 and receives no deduction.
+5. **Publication scale.** The raw score is mapped to 0-10 by a strictly monotone
+   piecewise function: seven quantile anchors align the reference pool's raw-score
+   distribution with a target display distribution, with linear interpolation between
+   anchors and slope-matched exponential tails approaching 10 above the top anchor and 0
+   below the bottom anchor. Both endpoints are asymptotes. Because the map is monotone,
+   it does not affect any match's rank.
 
-The full measure catalog — every definition, threshold, and formula — is in
-[`docs/TECHNICAL_APPENDIX.md`](docs/TECHNICAL_APPENDIX.md). The method as data is
-[`config/v14.yaml`](config/v14.yaml).
+## Weight selection
 
-## How the weights were chosen (not by taste, not by regression)
+The sub-family weights were selected by constrained search rather than by fitting to a
+target. 20,016 candidate weight vectors were evaluated against a battery specified in
+advance: eight face-validity constraints (for example, a scoreless draw between two
+already-qualified teams must rank in the bottom 15%; five consensus knockout classics
+must rank in the top 11%; a 19-save scoreless draw must rank above average; a 7-1 result
+must rank below median), a requirement of loose agreement with crowd ratings (Spearman
+correlation within [0.35, 0.75], used as a plausibility check rather than an optimization
+target), and a robustness requirement (the constraints must continue to hold under +-10%
+random perturbation of the weights; the selected vector satisfies this in 97% of draws).
+Preference data was deliberately excluded from parameter fitting: in preliminary work,
+models fitted to fan ratings loaded almost entirely on goal count.
 
-The family weights were selected by **pre-registered constrained search**: 20,016
-candidate weightings were tested against face-validity constraints fixed in advance (the
-dead 0–0 must rank near the bottom; the consensus knockout classics near the top; a
-thrilling 19-save 0–0 above average; a 7–1 rout below median), a *loose* agreement band
-with crowd ratings (a sanity check, never an optimization target), and a robustness gate
-(the winner survives ±10% random weight perturbation 97% of the time). Fitting to fan
-ratings was deliberately rejected: fans overwhelmingly reward goals and punish suspense,
-so a fan-trained model collapses into a goals-o-meter.
+## Configuration and extension
 
-## Adjust the weights, add your own measures
-
-Everything tunable lives in `config/v14.yaml`. Re-weight in one line:
+The taxonomy, weights, signs, deduction parameters, and display scale are defined in
+[`config/v14.yaml`](config/v14.yaml). Overrides can be passed as a dict or a path:
 
 ```python
 board = score_matches(features, config={"taxes": {"dead_rubber_k": 0.2}})
 ```
 
-Adding a measure is one decorated function plus one YAML line:
+New measures are added by registering a function and listing it under a sub-family in
+the config:
 
 ```python
 from excitement_index.measures.registry import measure
@@ -82,21 +95,32 @@ def woodwork(ctx):
     return float((ctx.shots["shot_outcome"] == "Post").sum())
 ```
 
-See the notebooks: `01_score_a_tournament` (end-to-end on 2022 open data),
-`02_adjust_the_weights`, `03_add_a_measure`.
+Three example notebooks cover the common cases: `01_score_a_tournament` (the 2022 World
+Cup end to end), `02_adjust_the_weights`, and `03_add_a_measure`.
 
 ## Data
 
-- **Examples run entirely on [StatsBomb open data](https://github.com/statsbomb/open-data)**
-  (fetched on first use, cached locally). This repository does not redistribute StatsBomb
-  event data, and the 2026 World Cup event data (a paid feed) is not included in any form.
-- `data/wc2026_board.csv` ships the published World Cup 2026 board — our derived output —
-  reproduced in full below.
+- The examples run on [StatsBomb open data](https://github.com/statsbomb/open-data),
+  fetched on first use and cached locally. This repository does not redistribute
+  StatsBomb event data. The 2026 World Cup event data is a paid feed and is not included
+  in any form.
+- `data/wc2026_board.csv` contains the published World Cup 2026 board (ratings, bucket
+  decompositions, and deductions per match) as a derived output. The table is reproduced
+  below.
 - `data/elo.csv` is a snapshot of [eloratings.net](https://eloratings.net) world ratings
-  (regenerate with `scripts/fetch_elo.py`); the default 0–10 display anchors were
+  (regenerate with `scripts/fetch_elo.py`). The default display-scale anchor values were
   calibrated against aggregate crowd-rating quantiles from seriesgraph.com.
 
-## The World Cup 2026 board (v1.4, through the round of 16 · July 7, 2026)
+## Validation
+
+The test suite includes golden-parity fixtures generated from the reference
+implementation: six open-data matches with every feature value checked to 1e-6 relative
+tolerance (including which values are missing), and an end-to-end comparison of the full
+2022 World Cup board (all 64 raw scores and the resulting ranking; run with
+`RUN_SLOW=1 pytest`). Structural tests cover the decomposition identity, deduction
+gating, missing-data behavior, and the monotonicity of the publication map.
+
+## The World Cup 2026 board (v1.4, through the round of 16, July 7, 2026)
 
 | # | Date | Match | Score | Stage | Rating |
 |---|------|-------|-------|-------|--------|
@@ -195,25 +219,23 @@ See the notebooks: `01_score_a_tournament` (end-to-end on 2022 open data),
 | 93 | 2026-06-20 | Tunisia vs Japan | 0-4 | group | 5.01 |
 | 94 | 2026-06-11 | Mexico vs South Africa | 2-0 | group | 3.33 |
 
-*(G1/G2/G3 = group matchdays; the full five-bucket decomposition and both tax line items
-for every match are in `data/wc2026_board.csv`.)*
+G1/G2/G3 denote group-stage matchdays. The five-bucket decomposition and both deduction
+line items for every match are in `data/wc2026_board.csv`.
 
-## Install & test
+## Install and test
 
 ```bash
 pip install -e ".[dev]"
-pytest              # includes golden-parity tests against the reference implementation
+pytest
 ```
 
 ## Citation
 
-If you use this index or code, please cite:
-
-> NetSI Sport (2026). *The NetSI match excitement index (v1.4).* Network Science
+> NetSI Sport (2026). The NetSI match excitement index (v1.4). Network Science
 > Institute, Northeastern University, for Northeastern Global News.
 > https://github.com/jkbren/excitement-index-soccer
 
 ## License
 
 MIT (code). StatsBomb open data, eloratings.net ratings, and seriesgraph.com aggregates
-are subject to their own terms — see `LICENSE` for data notes.
+are subject to their own terms; see `LICENSE` for data notes.
