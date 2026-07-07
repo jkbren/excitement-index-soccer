@@ -31,7 +31,7 @@ within-period ``HH:MM:SS.mmm`` strings.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import pandas as pd
 
@@ -63,7 +63,7 @@ def _isna(v: Any) -> bool:
     return v is None or (isinstance(v, float) and v != v)
 
 
-def _norm(v: Any) -> Optional[str]:
+def _norm(v: Any) -> str | None:
     """Casefold, hyphens -> spaces, collapse whitespace; None for missing."""
     if _isna(v):
         return None
@@ -74,7 +74,7 @@ def _norm(v: Any) -> Optional[str]:
     return out or None
 
 
-def _num(v: Any) -> Optional[float]:
+def _num(v: Any) -> float | None:
     if _isna(v):
         return None
     try:
@@ -83,7 +83,7 @@ def _num(v: Any) -> Optional[float]:
         return None
 
 
-def _bool(v: Any) -> Optional[bool]:
+def _bool(v: Any) -> bool | None:
     if _isna(v):
         return None
     if isinstance(v, bool):
@@ -125,7 +125,7 @@ class _View:
     """One pre-classified event (only the attributes the v3 number depends on)."""
 
     t: float
-    dur: Optional[float]
+    dur: float | None
     is_restart: bool
     is_admin: bool
     is_boundary: bool
@@ -134,7 +134,7 @@ class _View:
     is_clear_final_stop: bool   # non-ambiguous stop marker, final-gap eligible
 
 
-def _make_view(rec: "Dict[str, Any]") -> _View:
+def _make_view(rec: dict[str, Any]) -> _View:
     etn = _norm(rec.get("type"))
     ptn = _norm(rec.get("pass_type"))
     pon = _norm(rec.get("pass_outcome"))
@@ -165,7 +165,7 @@ def _make_view(rec: "Dict[str, Any]") -> _View:
     )
 
 
-def _event_end(v: _View, next_t: Optional[float], period_end: Optional[float]) -> float:
+def _event_end(v: _View, next_t: float | None, period_end: float | None) -> float:
     """End time under v3's duration policy: ``t + duration`` when a positive,
     trustworthy duration exists (never for an ambiguous mid-flight pass),
     capped so it can't run past the next restart or the period end."""
@@ -183,7 +183,7 @@ def _event_end(v: _View, next_t: Optional[float], period_end: Optional[float]) -
     return end
 
 
-def _period_end(views: "List[_View]") -> float:
+def _period_end(views: list[_View]) -> float:
     """Half-End timestamp (max, if several) or the last finite event time."""
     he = [v.t for v in views if v.is_half_end and v.t == v.t]
     if he:
@@ -192,9 +192,9 @@ def _period_end(views: "List[_View]") -> float:
     return max(ts) if ts else 0.0
 
 
-def _dead_intervals(views: "List[_View]", period_end: float) -> "List[float]":
+def _dead_intervals(views: list[_View], period_end: float) -> list[float]:
     """Per-interval dead seconds (each rounded to ms, as the original records them)."""
-    out: "List[float]" = []
+    out: list[float] = []
     restarts = [i for i, v in enumerate(views) if v.is_restart]
     for ri in restarts[1:]:              # a period's opening restart is never dead time
         restart = views[ri]
@@ -225,7 +225,7 @@ def _dead_intervals(views: "List[_View]", period_end: float) -> "List[float]":
     return out
 
 
-def match_ball_in_play(events: "pd.DataFrame") -> "Optional[Dict[str, Any]]":
+def match_ball_in_play(events: pd.DataFrame) -> dict[str, Any] | None:
     """Per-match ball-in-play timing (total + per period) from an event frame.
 
     ``events`` is the wide event frame (:func:`opendata.load_events`); it must
@@ -253,14 +253,14 @@ def match_ball_in_play(events: "pd.DataFrame") -> "Optional[Dict[str, Any]]":
                 rec,
             ))
         keyed.sort(key=lambda k: k[:3])          # stable: (period, t, index)
-        by_period: "Dict[int, List[_View]]" = {}
+        by_period: dict[int, list[_View]] = {}
         for per, _t, _i, rec in keyed:
             if per == per and per != float("inf") and int(per) in PERIODS:
                 by_period.setdefault(int(per), []).append(_make_view(rec))
 
         total_elapsed = 0.0
-        period_ends: "Dict[int, float]" = {}
-        dead_by_period: "Dict[int, List[float]]" = {}
+        period_ends: dict[int, float] = {}
+        dead_by_period: dict[int, list[float]] = {}
         for period in PERIODS:
             views = by_period.get(period)
             if not views:
@@ -284,7 +284,7 @@ def match_ball_in_play(events: "pd.DataFrame") -> "Optional[Dict[str, Any]]":
             pbip = round(elapsed - pdead, 3)
             per_period.append({
                 "period": period,
-                "label": PERIOD_LABELS.get(period, "Period %d" % period),
+                "label": PERIOD_LABELS.get(period, f"Period {period}"),
                 "bip_s": pbip,
                 "elapsed_s": elapsed,
                 "bip_pct": round(100.0 * pbip / elapsed, 3) if elapsed > 0 else None,

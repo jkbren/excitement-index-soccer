@@ -14,7 +14,7 @@ Every measure in the index shares these conventions:
 """
 from __future__ import annotations
 
-from typing import Optional, Sequence
+from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
@@ -93,7 +93,7 @@ def period_bounds(ev: pd.DataFrame, period: int):
     return (float(t.min()), float(t.max())) if len(t) else (np.nan, np.nan)
 
 
-def resolve_team_name(name: Optional[str], ev_teams: Sequence[str]) -> Optional[str]:
+def resolve_team_name(name: str | None, ev_teams: Sequence[str]) -> str | None:
     """Map a fixture-sheet team name onto the name the event feed actually uses.
 
     An unresolved name silently corrupts every team-keyed measure (goals and xG
@@ -118,7 +118,7 @@ def resolve_team_name(name: Optional[str], ev_teams: Sequence[str]) -> Optional[
     return close[0] if close else name
 
 
-def goal_times(ev: pd.DataFrame, team: str, end: Optional[float] = None) -> np.ndarray:
+def goal_times(ev: pd.DataFrame, team: str, end: float | None = None) -> np.ndarray:
     """Sorted goal times (minutes) for ``team``, capped at ``end`` when given."""
     g = ev[is_goal(ev)]
     t = np.sort(g.loc[g["team"] == team, "_t"].to_numpy(float))

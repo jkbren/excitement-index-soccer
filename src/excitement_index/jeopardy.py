@@ -22,7 +22,6 @@ structure — teams that meet in the group stage share a group.
 from __future__ import annotations
 
 import string
-from typing import Dict, Optional
 
 import numpy as np
 import pandas as pd
@@ -59,7 +58,7 @@ def _date_col(matches: pd.DataFrame) -> str:
     return "match_date" if "match_date" in matches.columns else "date"
 
 
-def infer_groups(matches: pd.DataFrame) -> Dict[str, str]:
+def infer_groups(matches: pd.DataFrame) -> dict[str, str]:
     """Recover group labels from the round-robin structure of the group stage.
 
     Open data has no group letters, but two teams meet in the group stage if
@@ -73,7 +72,7 @@ def infer_groups(matches: pd.DataFrame) -> Dict[str, str]:
     if g.empty:
         return {}
     # Union-find over team names.
-    parent: Dict[str, str] = {}
+    parent: dict[str, str] = {}
 
     def find(t: str) -> str:
         while parent[t] != t:
@@ -89,7 +88,7 @@ def infer_groups(matches: pd.DataFrame) -> Dict[str, str]:
         if rh != ra:
             parent[ra] = rh
 
-    comps: Dict[str, set] = {}
+    comps: dict[str, set] = {}
     for t in parent:
         comps.setdefault(find(t), set()).add(t)
 
@@ -102,9 +101,9 @@ def infer_groups(matches: pd.DataFrame) -> Dict[str, str]:
         return str(d.min()) if len(d) else ""
 
     ordered = sorted(comps.values(), key=lambda ts: (first_kickoff(ts), tuple(sorted(ts))))
-    out: Dict[str, str] = {}
+    out: dict[str, str] = {}
     for i, teams in enumerate(ordered):
-        label = string.ascii_uppercase[i] if i < 26 else "G%d" % (i + 1)
+        label = string.ascii_uppercase[i] if i < 26 else f"G{i + 1}"
         for t in teams:
             out[t] = label
     return out
@@ -119,14 +118,19 @@ def _jeopardy_rank_probs(teams, base_pts, base_gd, base_gf, fixtures, focal,
     tiebreak. Returns per-team P(top two) and P(third place advances)."""
     adv2 = {t: 0 for t in teams}
     third = {t: 0.0 for t in teams}
-    for _ in range(n_sims):
-        pts = dict(base_pts); gd = dict(base_gd); gf = dict(base_gf)
 
-        def _apply(h, a, gh, ga):
-            pts[h] += 3 if gh > ga else (1 if gh == ga else 0)
-            pts[a] += 3 if ga > gh else (1 if gh == ga else 0)
-            gd[h] += gh - ga; gd[a] += ga - gh
-            gf[h] += gh; gf[a] += ga
+    def _apply(pts, gd, gf, h, a, gh, ga):
+        pts[h] += 3 if gh > ga else (1 if gh == ga else 0)
+        pts[a] += 3 if ga > gh else (1 if gh == ga else 0)
+        gd[h] += gh - ga
+        gd[a] += ga - gh
+        gf[h] += gh
+        gf[a] += ga
+
+    for _ in range(n_sims):
+        pts = dict(base_pts)
+        gd = dict(base_gd)
+        gf = dict(base_gf)
 
         h, a, mh, ma = focal
         for _try in range(60):
@@ -136,9 +140,9 @@ def _jeopardy_rank_probs(teams, base_pts, base_gd, base_gf, fixtures, focal,
                 break
         else:
             gh, ga = (1, 0) if focal_outcome == "H" else ((0, 1) if focal_outcome == "A" else (1, 1))
-        _apply(h, a, gh, ga)
+        _apply(pts, gd, gf, h, a, gh, ga)
         for (h2, a2, m2h, m2a) in fixtures:
-            _apply(h2, a2, rng.poisson(m2h), rng.poisson(m2a))
+            _apply(pts, gd, gf, h2, a2, rng.poisson(m2h), rng.poisson(m2a))
         order = sorted(teams, key=lambda t: (pts[t], gd[t], gf[t], rng.random()), reverse=True)
         for i, t in enumerate(order):
             if i < 2:
@@ -148,8 +152,8 @@ def _jeopardy_rank_probs(teams, base_pts, base_gd, base_gf, fixtures, focal,
     return ({t: adv2[t] / n_sims for t in teams}, {t: third[t] / n_sims for t in teams})
 
 
-def _match_jeopardy(row: pd.Series, matches: pd.DataFrame, groups: Dict[str, str],
-                    elo: Optional[pd.DataFrame], hosts: set, *,
+def _match_jeopardy(row: pd.Series, matches: pd.DataFrame, groups: dict[str, str],
+                    elo: pd.DataFrame | None, hosts: set, *,
                     n_sims: int = 300) -> float:
     """[0, 1] how much this match's result could swing qualification. Knockout
     matches score exactly 1.0; group matches run the four-branch simulation
@@ -172,14 +176,18 @@ def _match_jeopardy(row: pd.Series, matches: pd.DataFrame, groups: Dict[str, str
     # Base standings: same-group games strictly before the focal date, with scores.
     played = gsched[(gsched[dcol].astype(str) < date) & gsched["score_home"].notna()]
     teams = sorted(set(gsched["home"].astype(str)) | set(gsched["away"].astype(str)))
-    base_pts = {t: 0 for t in teams}; base_gd = {t: 0 for t in teams}; base_gf = {t: 0 for t in teams}
+    base_pts = {t: 0 for t in teams}
+    base_gd = {t: 0 for t in teams}
+    base_gf = {t: 0 for t in teams}
     for _, m in played.iterrows():
         gh, ga = int(m["score_home"]), int(m["score_away"])
         h, a = str(m["home"]), str(m["away"])
         base_pts[h] += 3 if gh > ga else (1 if gh == ga else 0)
         base_pts[a] += 3 if ga > gh else (1 if gh == ga else 0)
-        base_gd[h] += gh - ga; base_gd[a] += ga - gh
-        base_gf[h] += gh; base_gf[a] += ga
+        base_gd[h] += gh - ga
+        base_gd[a] += ga - gh
+        base_gf[h] += gh
+        base_gf[a] += ga
 
     def _elo(t):
         return float(elo.loc[t, "elo"]) if t in elo.index else DEFAULT_ELO
@@ -213,8 +221,8 @@ def _match_jeopardy(row: pd.Series, matches: pd.DataFrame, groups: Dict[str, str
 
 
 def add_qualification_jeopardy(features: pd.DataFrame, matches: pd.DataFrame,
-                               elo: Optional[pd.DataFrame] = None,
-                               hosts: Optional[set] = None) -> pd.DataFrame:
+                               elo: pd.DataFrame | None = None,
+                               hosts: set | None = None) -> pd.DataFrame:
     """Add the ``qualification_jeopardy`` column to a feature matrix.
 
     ``features`` is indexed by ``match_id`` (as built by

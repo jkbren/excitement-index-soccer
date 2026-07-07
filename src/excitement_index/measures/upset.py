@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import numpy as np
 
+from ..wp import trapezoid
 from .registry import measure
 
 
@@ -59,7 +60,7 @@ def shock(ctx) -> float:
     if len(t) < 2:
         return float(sh.mean())
     span = float(t[-1] - t[0])
-    return float(np.trapz(sh, t) / span) if span > 0 else float(sh.mean())
+    return float(trapezoid(sh, t) / span) if span > 0 else float(sh.mean())
 
 
 @measure("underdog_defiance", tier="context")

@@ -17,7 +17,7 @@ The pipeline (matching the published v1.4 method exactly):
 """
 from __future__ import annotations
 
-from typing import Optional, Sequence
+from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
@@ -25,7 +25,7 @@ import pandas as pd
 from .config import ConfigLike, load_config
 
 
-def make_reference(features: pd.DataFrame, reference_ids: Optional[Sequence] = None):
+def make_reference(features: pd.DataFrame, reference_ids: Sequence | None = None):
     """(μ, σ) per measure over the reference pool.
 
     ``reference_ids`` selects the benchmark matches (the published index uses
@@ -43,8 +43,8 @@ def make_reference(features: pd.DataFrame, reference_ids: Optional[Sequence] = N
     return num.mean(), num.std(ddof=0), list(ref.index)
 
 
-def score_matches(features: pd.DataFrame, *, reference_ids: Optional[Sequence] = None,
-                  config: ConfigLike = None, floor: Optional[float] = None) -> pd.DataFrame:
+def score_matches(features: pd.DataFrame, *, reference_ids: Sequence | None = None,
+                  config: ConfigLike = None, floor: float | None = None) -> pd.DataFrame:
     """Score every match in a feature matrix (one row per match, as produced by
     :func:`excitement_index.build_feature_matrix`).
 

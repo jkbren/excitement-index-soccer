@@ -16,7 +16,6 @@ import json
 import os
 import urllib.request
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -142,7 +141,7 @@ def load_events(match_id: int) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def load_elo(path: Optional[str] = None) -> pd.DataFrame:
+def load_elo(path: str | None = None) -> pd.DataFrame:
     """The Elo table for pre-match strength (columns ``team, elo``), indexed by
     team name. Defaults to the snapshot shipped in ``data/elo.csv``
     (eloratings.net; regenerate with ``scripts/fetch_elo.py``)."""

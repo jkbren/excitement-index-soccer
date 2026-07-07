@@ -26,7 +26,7 @@ def test_infer_groups_recovers_eight_groups_of_four():
 
     matches = _wc2022()
     groups = infer_groups(matches)
-    group_sizes = groups.groupby(groups).size() if hasattr(groups, "groupby") else None
+    groups.groupby(groups).size() if hasattr(groups, "groupby") else None
     teams_per_group = {}
     for team, g in groups.items():
         teams_per_group.setdefault(g, set()).add(team)

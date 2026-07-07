@@ -23,8 +23,6 @@ sums over these per-shot quantities.
 """
 from __future__ import annotations
 
-from typing import Optional
-
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -37,6 +35,10 @@ MIN_ELAPSED = 1.0                # floor on elapsed minutes for live rates
 CHASE = 0.25                     # max fractional λ tilt for a side trailing late
 
 WP_COLS = ["_t", "period", "d", "p_home", "p_draw", "p_away", "cum_xg_home", "cum_xg_away"]
+
+# numpy renamed trapz -> trapezoid in 2.0; support both (the fallback only
+# evaluates on numpy < 2.0, where trapz still exists).
+trapezoid = getattr(np, "trapezoid", None) or np.trapz  # noqa: NPY201
 
 
 # ---------------------------------------------------------------------------
@@ -73,7 +75,7 @@ def pregame_outcome_probs(elo_home: float, elo_away: float, *, hfa_elo: float = 
 # The curve
 # ---------------------------------------------------------------------------
 def wp_curve(events: pd.DataFrame, *, home: str, away: str,
-             prior_home: Optional[float] = None, prior_away: Optional[float] = None,
+             prior_home: float | None = None, prior_away: float | None = None,
              prior_rate: float = PRIOR_GOAL_RATE, chase: float = CHASE,
              xg_update: bool = False, tau: float = TAU_MINUTES) -> pd.DataFrame:
     """The 3-outcome win-probability curve, one row per playable event plus a
@@ -179,7 +181,7 @@ def entropy_area(curve: pd.DataFrame) -> float:
     if len(t) < 2:
         return float(H.mean())
     span = float(t[-1] - t[0])
-    return float(np.trapz(H, t) / span) if span > 0 else float(H.mean())
+    return float(trapezoid(H, t) / span) if span > 0 else float(H.mean())
 
 
 def best_window_tv(curve: pd.DataFrame, *, minutes: float) -> float:
@@ -238,8 +240,8 @@ def comeback_magnitude_from_curve(curve: pd.DataFrame) -> float:
 # Per-shot leverage (the anticipation/resolution machinery)
 # ---------------------------------------------------------------------------
 def per_shot_leverage(ev: pd.DataFrame, *, home: str, away: str, end: float,
-                      prior_home: Optional[float] = None,
-                      prior_away: Optional[float] = None) -> pd.DataFrame:
+                      prior_home: float | None = None,
+                      prior_away: float | None = None) -> pd.DataFrame:
     """For every shot: the counterfactual probability swing had it scored.
 
     Uses the same Skellam with plain λ = rate × minutes-left (floored at 0.05

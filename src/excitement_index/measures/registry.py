@@ -24,14 +24,14 @@ individual measures stay tiny and never recompute expensive shared state.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Callable, Dict, Optional
+from typing import Callable
 
 import numpy as np
 import pandas as pd
 
 #: name -> (function, tier). Tiers: "core" computes on any StatsBomb feed;
 #: "context" needs Elo ratings; "extended" needs OBV columns.
-_REGISTRY: Dict[str, dict] = {}
+_REGISTRY: dict[str, dict] = {}
 
 
 @dataclass
@@ -46,10 +46,10 @@ class MatchContext:
     wp: pd.DataFrame                    # goals-only Skellam H/D/A curve
     events_all: pd.DataFrame            # unfiltered events (incl. shootout, for shootout_drama)
     stage: str = "group"                # fixture-sheet stage string, lower-cased
-    prior_home: Optional[float] = None  # Elo-derived per-minute scoring rates
-    prior_away: Optional[float] = None
-    elo_ctx: Optional[dict] = None      # pregame p0/entropy/upset context; None without Elo
-    row: Optional[pd.Series] = None     # the fixture-sheet row (scores, cards, ...)
+    prior_home: float | None = None  # Elo-derived per-minute scoring rates
+    prior_away: float | None = None
+    elo_ctx: dict | None = None      # pregame p0/entropy/upset context; None without Elo
+    row: pd.Series | None = None     # the fixture-sheet row (scores, cards, ...)
     cache: dict = field(default_factory=dict)   # scratch shared between measures
 
 
@@ -64,16 +64,16 @@ def measure(name: str, *, tier: str = "core") -> Callable:
     return deco
 
 
-def registered_measures() -> Dict[str, dict]:
+def registered_measures() -> dict[str, dict]:
     """The full registry (import ``excitement_index.measures`` first so every
     family module has run its decorators)."""
     return dict(_REGISTRY)
 
 
-def compute_all(ctx: MatchContext) -> Dict[str, float]:
+def compute_all(ctx: MatchContext) -> dict[str, float]:
     """Run every registered measure on one match. A measure that raises is
     recorded as ``nan`` rather than sinking the whole match."""
-    out: Dict[str, float] = {}
+    out: dict[str, float] = {}
     for name, meta in _REGISTRY.items():
         try:
             out[name] = float(meta["fn"](ctx))

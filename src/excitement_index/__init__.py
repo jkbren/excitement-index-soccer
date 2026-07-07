@@ -16,7 +16,7 @@ see ``excitement_index.measures.registry``.
 """
 from __future__ import annotations
 
-from typing import Callable, Optional
+from typing import Callable
 
 import numpy as np
 import pandas as pd
@@ -37,8 +37,8 @@ HOST_ELO_EDGE = 50.0
 
 
 def extract_features(events: pd.DataFrame, match_row: pd.Series,
-                     elo: Optional[pd.DataFrame] = None,
-                     hosts: Optional[set] = None) -> dict:
+                     elo: pd.DataFrame | None = None,
+                     hosts: set | None = None) -> dict:
     """All registered measures for one match.
 
     ``match_row`` needs ``home``/``away`` (fixture-sheet names; resolved onto
@@ -73,7 +73,7 @@ def extract_features(events: pd.DataFrame, match_row: pd.Series,
 
 
 def build_feature_matrix(matches: pd.DataFrame, load_events: Callable[[int], pd.DataFrame],
-                         elo: Optional[pd.DataFrame] = None,
+                         elo: pd.DataFrame | None = None,
                          config=None, jeopardy: bool = True) -> pd.DataFrame:
     """One feature row per match, indexed by ``match_id``.
 

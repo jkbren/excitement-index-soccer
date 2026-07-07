@@ -10,8 +10,9 @@ constants). Users experiment by passing overrides:
 from __future__ import annotations
 
 import copy
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Mapping, Optional, Union
+from typing import Union
 
 import yaml
 
