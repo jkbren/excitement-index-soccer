@@ -22,7 +22,7 @@ dependencies = [
 dev = ["pytest>=7", "ruff>=0.4", "jupyter", "matplotlib"]
 
 [project.urls]
-Homepage = "https://github.com/bkleinNU/excitement-index-soccer"
+Homepage = "https://github.com/jkbren/excitement-index-soccer"
 
 [tool.setuptools.packages.find]
 where = ["src"]

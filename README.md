@@ -211,7 +211,7 @@ If you use this index or code, please cite:
 
 > NetSI Sport (2026). *The NetSI match excitement index (v1.4).* Network Science
 > Institute, Northeastern University, for Northeastern Global News.
-> https://github.com/bkleinNU/excitement-index-soccer
+> https://github.com/jkbren/excitement-index-soccer
 
 ## License
 
