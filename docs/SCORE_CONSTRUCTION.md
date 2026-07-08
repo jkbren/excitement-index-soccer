@@ -47,8 +47,8 @@ of measures carry negative sign by construction (cards, red cards, sterile-posse
 share, dead-air stretches), so that larger values reduce the score.
 
 The reference distribution is frozen: every match in the tournament, including the
-knockout rounds, is standardized against the same 72-game benchmark. This makes ratings
-stable — a published score never changes when later matches are added.
+knockout rounds, is standardized against the same 72-game benchmark. This keeps ratings
+stable. A published score never changes when later matches are added.
 
 ## 4. Aggregation
 
@@ -86,13 +86,13 @@ has *A* = 1 and receives no deduction.
 
 ## 6. Publication scale
 
-The adjusted raw score is mapped to 0–10 by a monotone piecewise function: seven quantile
+The adjusted raw score is mapped to 0–10 by a monotone piecewise function. Seven quantile
 anchors align the raw-score distribution of the reference pool with the corresponding
-quantiles of the fan-rating distribution (this calibrates the *scale*, not the *ordering*
-— a monotone map cannot change any match's rank), with linear interpolation between
-anchors. Beyond the top anchor the map follows a slope-matched exponential approach to 10;
-below the bottom anchor, a slope-matched exponential approach to 0. Both endpoints are
-asymptotes: neither 0.0 nor 10.0 is attainable. Published ratings are rounded to two
+quantiles of the fan-rating distribution, with linear interpolation between anchors. The
+map adjusts the scale of the scores. Because the map is monotone, it preserves each
+match's rank. Beyond the top anchor the map follows a slope-matched exponential approach
+to 10; below the bottom anchor, a slope-matched exponential approach to 0. Both endpoints
+are asymptotes: neither 0.0 nor 10.0 is attainable. Published ratings are rounded to two
 decimals.
 
 ## 7. Weight selection and validation
@@ -113,10 +113,9 @@ pre-registered rank constraints. All amendments to the index are versioned and d
 
 ## 8. Properties
 
-- **Not a trained model.** No parameter is estimated by regression on fan ratings or any
+- **No fitted parameters.** No parameter is estimated by regression on fan ratings or any
   preference data. (Preliminary work established that models fitted to fan ratings load
-  almost entirely on goal count; the index is intended as an independent definition of
-  on-field tension.)
+  almost entirely on goal count; the index instead measures on-field tension directly.)
 - **Deterministic and reproducible.** Given the event data and the published constants,
   every rating can be recomputed exactly.
 - **Exactly decomposable.** Bucket contributions and both deductions sum to the raw score.

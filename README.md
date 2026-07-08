@@ -5,10 +5,11 @@ repository contains the open implementation of the match excitement index built 
 Sport (Northeastern University Network Science Institute) for Northeastern Global News'
 coverage of the 2026 FIFA World Cup.
 
-The rating is a weighted linear composite of approximately 57 per-match measures,
-standardized against a tournament benchmark, with two rule-based deductions for the
-match's competitive context. No parameter is fitted to fan ratings or other preference
-data. Every published score decomposes exactly into five ingredient buckets.
+The rating is a weighted linear composite of approximately 57 per-match measures. Each
+measure is standardized against a tournament benchmark. Two rule-based deductions then
+adjust the score for the match's competitive context. No parameter is fitted to fan
+ratings or other preference data. Every published score decomposes exactly into five
+ingredient buckets.
 
 ```python
 from excitement_index import opendata, build_feature_matrix, score_matches
@@ -62,16 +63,16 @@ selected on 2026 data only; no 2022 match was used in their selection.
 
 ## Weight selection
 
-The sub-family weights were selected by constrained search rather than by fitting to a
-target. 20,016 candidate weight vectors were evaluated against a battery specified in
-advance: eight face-validity constraints (for example, a scoreless draw between two
+A constrained search fixed the sub-family weights. The search evaluated 20,016 candidate
+weight vectors against a battery of criteria specified in advance. The battery had three
+parts. First, eight face-validity constraints: for example, a scoreless draw between two
 already-qualified teams must rank in the bottom 15%; five consensus knockout classics
 must rank in the top 11%; a 19-save scoreless draw must rank above average; a 7-1 result
-must rank below median), a requirement of loose agreement with crowd ratings (Spearman
-correlation within [0.35, 0.75], used as a plausibility check rather than an optimization
-target), and a robustness requirement (the constraints must continue to hold under +-10%
-random perturbation of the weights; the selected vector satisfies this in 97% of draws).
-Preference data was deliberately excluded from parameter fitting: in preliminary work,
+must rank below median. Second, loose agreement with crowd ratings: a Spearman
+correlation within [0.35, 0.75], used as a plausibility check and not as an optimization
+target. Third, a robustness requirement: the constraints must continue to hold under
++-10% random perturbation of the weights, and the selected vector satisfies this in 97%
+of draws. Preference data was excluded from parameter fitting. In preliminary work,
 models fitted to fan ratings loaded almost entirely on goal count.
 
 ## Configuration and extension
@@ -254,3 +255,10 @@ the 2026 World Cup with Northeastern Global News.
 
 MIT (code). StatsBomb open data, eloratings.net ratings, and seriesgraph.com aggregates
 are subject to their own terms; see `LICENSE` for data notes.
+
+---
+
+<p align="center">
+  <img src="assets/netsi_sport_logo.png" alt="NetSI Sport" width="110">
+</p>
+<p align="center"><sub>NetSI Sport · Network Science Institute, Northeastern University</sub></p>

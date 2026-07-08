@@ -38,10 +38,10 @@ probabilities (p_home, p_draw, p_away) at every event.
   μ = 1.3·exp(±adv/2) per side (floored at 0.02), where adv = (Elo_home − Elo_away ±
   host adjustment)/200; r = μ/90. Without Elo coverage both sides receive the symmetric
   prior of 1.35 goals per 90 minutes.
-- **Updates.** The curve updates on goals only. This was a validated design decision:
-  in calibration testing, updating outcome probabilities on xG worsened prediction
-  (ranked probability score) versus goals-only, so shot quality enters the index through
-  the chance measures rather than the WP curve. Red cards do not update the curve.
+- **Updates.** The curve updates on goals only. Calibration testing supports this choice:
+  updating outcome probabilities on xG worsened prediction (ranked probability score)
+  relative to goals-only. Shot quality therefore enters the index through the chance
+  measures rather than the WP curve. Red cards do not update the curve.
 - **Chase adjustment.** Late in a match, a trailing side's rate is tilted upward and the
   leader's downward: with lateness = 1 − minutes-left/end and margin magnitude m =
   min(|d|, 2), the trailing rate is multiplied by (1 + 0.25·lateness·m) and the leading
@@ -211,8 +211,9 @@ Two deductions follow:
   jeopardy coverage (historical tournaments) pay nothing.
 - **Aliveness deduction** (knockouts only) = min(0.60 × (1 − A), headroom), where
   A = ½(alive_until + late_alive_30) and headroom caps the deduction so no match falls
-  below the frozen pool-median raw score (m = 0.0583) — deadness makes a knockout
-  mediocre, never historically bad. Unknown aliveness defaults to A = 1 (no deduction).
+  below the frozen pool-median raw score (m = 0.0583). A dead knockout can drop to a
+  mediocre score but cannot drop below that median. Unknown aliveness defaults to A = 1
+  (no deduction).
 
 raw = core − dead-rubber deduction − aliveness deduction.
 
