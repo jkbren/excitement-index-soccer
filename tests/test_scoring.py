@@ -128,3 +128,19 @@ def test_bad_config_fails_loudly():
     """
     with pytest.raises(ValueError):
         score_matches(synthetic_features(), config={"weights": {"flow": 0.9}})
+
+
+def test_duplicate_bucket_family_rejected():
+    """A family assigned to two display buckets must be rejected, not silently double-counted.
+
+    The buckets must partition the taxonomy so the bucket_* columns sum to the raw score. Set
+    equality alone cannot catch a family listed in two buckets (the duplicate collapses in the
+    set), so validation checks the flat list for repeats. Here an existing family is added to a
+    second bucket; score_matches must raise rather than score it.
+    """
+    cfg = load_config()
+    buckets = {b: list(fams) for b, fams in cfg["buckets"].items()}
+    victim = cfg["buckets"]["spectacle"][0]      # a family already living in "spectacle"
+    buckets["stakes"] = buckets["stakes"] + [victim]   # ...now also in "stakes" -> not a partition
+    with pytest.raises(ValueError, match="more than one bucket"):
+        score_matches(synthetic_features(), config={"buckets": buckets})

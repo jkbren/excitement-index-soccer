@@ -40,8 +40,6 @@ def test_infer_groups_recovers_eight_groups_of_four():
 
     matches = _wc2022()
     groups = infer_groups(matches)
-    # No-op probe kept from the original test; the assertions below use teams_per_group instead.
-    groups.groupby(groups).size() if hasattr(groups, "groupby") else None
     # Invert the team -> group mapping into group -> set(teams) to count members per group.
     teams_per_group = {}
     for team, g in groups.items():

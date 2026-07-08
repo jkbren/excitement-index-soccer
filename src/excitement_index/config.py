@@ -109,7 +109,15 @@ def validate_config(cfg: dict) -> None:
     for m in cfg.get("negative_signs", []):
         if m not in all_measures:
             raise ValueError(f"negative_signs lists unknown measure {m!r}")
-    bucketed = {fam for fams in cfg["buckets"].values() for fam in fams}
+    bucket_list = [fam for fams in cfg["buckets"].values() for fam in fams]
+    # A family in two buckets would be double-counted in the decomposition and break the
+    # buckets-sum-to-raw contract. De-duplicating to a set first would hide that, so check the
+    # flat list for repeats before comparing membership.
+    dupes = sorted(f for f in set(bucket_list) if bucket_list.count(f) > 1)
+    if dupes:
+        raise ValueError(f"buckets must be a partition; families assigned to more than one "
+                         f"bucket: {dupes}")
+    bucketed = set(bucket_list)
     # Buckets must be an exact partition so bucket_* columns sum to raw.
     if bucketed != set(taxonomy):
         raise ValueError("buckets must partition exactly the taxonomy families; "

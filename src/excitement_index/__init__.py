@@ -83,9 +83,13 @@ def extract_features(events: pd.DataFrame, match_row: pd.Series,
     # intentional — do not "fix" it to `ev`.
     curve = wp_curve(events, home=home, away=away,
                      prior_home=prior_home, prior_away=prior_away, xg_update=False)
+    # A stage cell that is present but NaN would stringify to "nan"; treat a missing OR NaN
+    # stage as the group-stage default so the knockout/stage measures read it correctly.
+    raw_stage = match_row.get("stage", "group")
+    stage = "group" if pd.isna(raw_stage) else str(raw_stage).lower()
     ctx = MatchContext(ev=ev, home=home, away=away, end=end,
                        shots=ev[ev["type"] == "Shot"], wp=curve, events_all=events,
-                       stage=str(match_row.get("stage", "group")).lower(),
+                       stage=stage,
                        prior_home=prior_home, prior_away=prior_away,
                        elo_ctx=elo_ctx, row=match_row)
     return compute_all(ctx)
