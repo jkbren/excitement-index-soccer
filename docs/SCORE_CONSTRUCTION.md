@@ -1,5 +1,5 @@
 # The NetSI match excitement rating: score construction
-*(v1.4 · NetSI Sport for Northeastern Global News · July 2026)*
+*(NetSI Sport for Northeastern Global News · July 2026)*
 
 ## Overview
 
@@ -109,8 +109,7 @@ random perturbation of the weights; the selected vector survives 97% of perturba
 As an out-of-sample check, the frozen index applied to the 2022 World Cup ranks the
 Argentina–France final in the top three of 64 matches. The two deduction parameters
 (0.40 and 0.60) were subsequently set as the smallest values satisfying additional
-pre-registered rank constraints. All amendments to the index are versioned and documented;
-the current version is v1.4.
+pre-registered rank constraints. All amendments to the index are versioned and documented.
 
 ## 8. Properties
 

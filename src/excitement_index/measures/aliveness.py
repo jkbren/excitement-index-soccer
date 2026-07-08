@@ -1,4 +1,4 @@
-"""Endgame aliveness — the v1.4 aliveness-layer inputs.
+"""Endgame aliveness — the aliveness-layer inputs.
 
 Neither measure belongs to a scoring family; they feed the post-hoc aliveness
 deduction, where A = ½(alive_until + late_alive_30). Both walk the score-margin

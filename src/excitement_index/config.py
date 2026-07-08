@@ -1,7 +1,7 @@
 """Configuration loading for the index.
 
 The entire method — taxonomy, weights, signs, deduction parameters, display
-scale — lives in a YAML file (``config/v14.yaml`` ships the frozen v1.4
+scale — lives in a YAML file (``config/default.yaml`` ships the frozen
 constants). Users experiment by passing overrides:
 
     score_matches(..., config="my_variant.yaml")
@@ -16,7 +16,7 @@ from typing import Union
 
 import yaml
 
-DEFAULT_CONFIG_PATH = Path(__file__).resolve().parents[2] / "config" / "v14.yaml"
+DEFAULT_CONFIG_PATH = Path(__file__).resolve().parents[2] / "config" / "default.yaml"
 
 ConfigLike = Union[None, str, Path, Mapping]
 
@@ -36,7 +36,7 @@ def _deep_merge(base: dict, override: Mapping) -> dict:
 def load_config(config: ConfigLike = None) -> dict:
     """Resolve a config argument to a validated dict.
 
-    ``None`` -> the shipped v1.4 defaults; a path -> that YAML file (merged over
+    ``None`` -> the shipped defaults; a path -> that YAML file (merged over
     the defaults, so a partial file works); a mapping -> deep-merged overrides."""
     with open(DEFAULT_CONFIG_PATH) as f:
         cfg = yaml.safe_load(f)

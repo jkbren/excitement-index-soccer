@@ -1,5 +1,5 @@
 # Technical appendix: the NetSI match excitement rating
-*(v1.4 · frozen July 7, 2026 · NetSI Sport for Northeastern Global News)*
+*(frozen July 7, 2026 · NetSI Sport for Northeastern Global News)*
 
 This appendix documents every measure in the rating, the models behind them, and the exact
 aggregation arithmetic. Together with the frozen constants listed in §8, it is sufficient
@@ -255,8 +255,8 @@ July 7, 2026, on which all pre-registered validation constraints are stated), an
 **manifest** itself (constants, checksums, amendment log). The family taxonomy, weights,
 signs, and the two deduction parameters are code constants. The daily job re-scores
 matches against these artifacts and cannot re-fit them; any change to the index is a
-versioned amendment with a documented rationale (current version v1.4; the version history
-and all amendment records are available on request).
+versioned amendment with a documented rationale (the version history and all amendment
+records are available on request).
 
 ## 9. Conventions worth noting
 
@@ -269,7 +269,7 @@ and all amendment records are available on request).
 - tempo is computed on regulation time only; all shot-derived measures exclude the
   shootout because events are pre-filtered to periods 1–4.
 - The event feed carries additional computed columns (e.g., live-gated suspense variants,
-  post-shot-xG goalkeeping) that are not part of the v1.4 score; the scored set is exactly
+  post-shot-xG goalkeeping) that are not part of the score; the scored set is exactly
   the 57 measures above plus the three context-layer inputs.
 
 *Data: StatsBomb (events, xG, OBV); eloratings.net (team strength). Analysis: NetSI Sport

@@ -1,6 +1,6 @@
 """Aggregation: measures -> standardized scores -> weighted families -> raw score.
 
-The pipeline (matching the published v1.4 method exactly):
+The pipeline (matching the published method exactly):
 
 1. **Standardize.** Every measure is z-scored against a *reference pool* of
    matches: z = (x − μ_ref) / (σ_ref + 1e-6), population σ, then clipped to

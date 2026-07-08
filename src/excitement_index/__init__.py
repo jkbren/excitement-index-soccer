@@ -1,7 +1,7 @@
 """excitement_index — a transparent excitement rating for soccer matches.
 
 The published NetSI Sport / Northeastern Global News World Cup 2026 index
-(v1.4) as an open, configurable pipeline:
+as an open, configurable pipeline:
 
     from excitement_index import opendata, build_feature_matrix, score_matches
 
@@ -10,7 +10,7 @@ The published NetSI Sport / Northeastern Global News World Cup 2026 index
                                     elo=opendata.load_elo())
     board = score_matches(features)          # 0-10 ratings, best match first
 
-Weights, taxonomy, and deduction parameters live in ``config/v14.yaml``; pass
+Weights, taxonomy, and deduction parameters live in ``config/default.yaml``; pass
 ``config=`` overrides to experiment. New measures register with one decorator —
 see ``excitement_index.measures.registry``.
 """
@@ -29,7 +29,7 @@ from .measures.registry import MatchContext, compute_all
 from .scoring import make_reference, score_matches
 from .wp import pregame_outcome_probs, wp_curve
 
-__version__ = "1.4.0"
+__version__ = "1.0.0"
 __all__ = ["build_feature_matrix", "extract_features", "score_matches",
            "make_reference", "add_qualification_jeopardy", "load_config"]
 

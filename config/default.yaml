@@ -1,5 +1,5 @@
 # =============================================================================
-# The excitement index, v1.4 — the method as data.
+# The excitement index — the method as data.
 #
 # Everything a user might reasonably want to change lives here:
 #   * which measures belong to which sub-family (the taxonomy)
@@ -14,12 +14,10 @@
 # write one decorated function (see excitement_index/measures/registry.py) and
 # list its name under a family here.
 #
-# The values below are the frozen v1.4 constants used for the published
+# The values below are the frozen constants used for the published
 # World Cup 2026 board (weights selected by pre-registered constrained search
 # over 20,016 candidates — see README §"How the weights were chosen").
 # =============================================================================
-
-version: "1.4"
 
 # --- taxonomy: sub-family -> ordered list of measure names -------------------
 taxonomy:
@@ -40,7 +38,7 @@ taxonomy:
                 ball_recoveries, obv_end_to_end, obv_peak, obv_flat_share, dead_air]
   controversy: [cards, red_card, penalties]
 
-# --- sub-family weights (frozen v1.4; full precision; sum = 1) ---------------
+# --- sub-family weights (frozen; full precision; sum = 1) --------------------
 weights:
   prematch:    0.0475206772553563
   stakes:      0.1566518572270068

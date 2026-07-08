@@ -77,7 +77,7 @@ models fitted to fan ratings loaded almost entirely on goal count.
 ## Configuration and extension
 
 The taxonomy, weights, signs, deduction parameters, and display scale are defined in
-[`config/v14.yaml`](config/v14.yaml). Overrides can be passed as a dict or a path:
+[`config/default.yaml`](config/default.yaml). Overrides can be passed as a dict or a path:
 
 ```python
 board = score_matches(features, config={"taxes": {"dead_rubber_k": 0.2}})
@@ -120,7 +120,7 @@ tolerance (including which values are missing), and an end-to-end comparison of 
 `RUN_SLOW=1 pytest`). Structural tests cover the decomposition identity, deduction
 gating, missing-data behavior, and the monotonicity of the publication map.
 
-## The World Cup 2026 board (v1.4, through the round of 16, July 7, 2026)
+## The World Cup 2026 board (through the round of 16, July 7, 2026)
 
 | # | Date | Match | Score | Stage | Rating |
 |---|------|-------|-------|-------|--------|
@@ -231,7 +231,7 @@ pytest
 
 ## Citation
 
-> NetSI Sport (2026). The NetSI match excitement index (v1.4). Network Science
+> NetSI Sport (2026). The NetSI match excitement index. Network Science
 > Institute, Northeastern University, for Northeastern Global News.
 > https://github.com/jkbren/excitement-index-soccer
 
