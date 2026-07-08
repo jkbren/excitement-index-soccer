@@ -130,95 +130,96 @@ gating, missing-data behavior, and the monotonicity of the publication map.
 | 3 | 2026-06-29 | Germany vs Paraguay | 1-1 (3-4 p) | R32 | 9.47 |
 | 4 | 2026-07-03 | Argentina vs Cape Verde Islands | 3-2 aet | R32 | 9.46 |
 | 5 | 2026-07-05 | Brazil vs Norway | 1-2 | R16 | 9.43 |
-| 6 | 2026-07-02 | Portugal vs Croatia | 2-1 | R32 | 9.41 |
-| 7 | 2026-06-27 | Algeria vs Austria | 3-3 | group | 9.41 |
-| 8 | 2026-06-29 | Brazil vs Japan | 2-1 | R32 | 9.41 |
-| 9 | 2026-06-25 | Türkiye vs United States | 3-2 | group | 9.40 |
-| 10 | 2026-06-29 | Netherlands vs Morocco | 1-1 (2-3 p) | R32 | 9.39 |
-| 11 | 2026-07-01 | England vs Congo DR | 2-1 | R32 | 9.39 |
-| 12 | 2026-07-03 | Australia vs Egypt | 1-1 (2-4 p) | R32 | 9.38 |
-| 13 | 2026-07-05 | Mexico vs England | 2-3 | R16 | 9.16 |
-| 14 | 2026-07-06 | Portugal vs Spain | 0-1 | R16 | 9.09 |
-| 15 | 2026-06-28 | South Africa vs Canada | 0-1 | R32 | 8.97 |
-| 16 | 2026-06-20 | Germany vs Côte d'Ivoire | 2-1 | group | 8.96 |
-| 17 | 2026-06-26 | Egypt vs Iran | 1-1 | group | 8.84 |
-| 18 | 2026-06-11 | South Korea vs Czech Republic | 2-1 | group | 8.80 |
-| 19 | 2026-06-27 | Congo DR vs Uzbekistan | 3-1 | group | 8.76 |
-| 20 | 2026-06-22 | Jordan vs Algeria | 1-2 | group | 8.67 |
-| 21 | 2026-06-15 | Iran vs New Zealand | 2-2 | group | 8.59 |
-| 22 | 2026-06-21 | New Zealand vs Egypt | 1-3 | group | 8.51 |
-| 23 | 2026-06-17 | England vs Croatia | 4-2 | group | 8.48 |
-| 24 | 2026-06-25 | Ecuador vs Germany | 2-1 | group | 8.42 |
-| 25 | 2026-06-21 | Uruguay vs Cape Verde Islands | 2-2 | group | 8.30 |
-| 26 | 2026-07-06 | United States vs Belgium | 1-4 | R16 | 8.30 |
+| 6 | 2026-07-07 | Argentina vs Egypt | 3-2 | R16 | 9.43 |
+| 7 | 2026-07-02 | Portugal vs Croatia | 2-1 | R32 | 9.41 |
+| 8 | 2026-06-27 | Algeria vs Austria | 3-3 | group | 9.41 |
+| 9 | 2026-06-29 | Brazil vs Japan | 2-1 | R32 | 9.41 |
+| 10 | 2026-06-25 | Türkiye vs United States | 3-2 | group | 9.40 |
+| 11 | 2026-06-29 | Netherlands vs Morocco | 1-1 (2-3 p) | R32 | 9.39 |
+| 12 | 2026-07-01 | England vs Congo DR | 2-1 | R32 | 9.39 |
+| 13 | 2026-07-03 | Australia vs Egypt | 1-1 (2-4 p) | R32 | 9.38 |
+| 14 | 2026-07-05 | Mexico vs England | 2-3 | R16 | 9.16 |
+| 15 | 2026-07-06 | Portugal vs Spain | 0-1 | R16 | 9.09 |
+| 16 | 2026-06-28 | South Africa vs Canada | 0-1 | R32 | 8.97 |
+| 17 | 2026-06-20 | Germany vs Côte d'Ivoire | 2-1 | group | 8.96 |
+| 18 | 2026-06-26 | Egypt vs Iran | 1-1 | group | 8.84 |
+| 19 | 2026-06-11 | South Korea vs Czech Republic | 2-1 | group | 8.80 |
+| 20 | 2026-06-27 | Congo DR vs Uzbekistan | 3-1 | group | 8.76 |
+| 21 | 2026-06-22 | Jordan vs Algeria | 1-2 | group | 8.67 |
+| 22 | 2026-06-15 | Iran vs New Zealand | 2-2 | group | 8.59 |
+| 23 | 2026-06-21 | New Zealand vs Egypt | 1-3 | group | 8.51 |
+| 24 | 2026-06-17 | England vs Croatia | 4-2 | group | 8.48 |
+| 25 | 2026-06-25 | Ecuador vs Germany | 2-1 | group | 8.42 |
+| 26 | 2026-06-21 | Uruguay vs Cape Verde Islands | 2-2 | group | 8.30 |
 | 27 | 2026-06-14 | Netherlands vs Japan | 2-2 | group | 8.30 |
 | 28 | 2026-06-24 | Morocco vs Haiti | 4-2 | group | 8.29 |
 | 29 | 2026-06-16 | Austria vs Jordan | 3-1 | group | 8.08 |
 | 30 | 2026-06-14 | Côte d'Ivoire vs Ecuador | 1-0 | group | 8.06 |
 | 31 | 2026-06-16 | France vs Senegal | 3-1 | group | 8.03 |
 | 32 | 2026-06-22 | Norway vs Senegal | 3-2 | group | 7.99 |
-| 33 | 2026-06-12 | Canada vs Bosnia-Herzegovina | 1-1 | group | 7.85 |
-| 34 | 2026-06-24 | Scotland vs Brazil | 0-3 | group | 7.84 |
-| 35 | 2026-06-13 | Brazil vs Morocco | 1-1 | group | 7.82 |
-| 36 | 2026-06-20 | Ecuador vs Curaçao | 0-0 | group | 7.82 |
-| 37 | 2026-06-13 | Australia vs Türkiye | 2-0 | group | 7.70 |
-| 38 | 2026-06-26 | Norway vs France | 1-4 | group | 7.68 |
-| 39 | 2026-06-26 | New Zealand vs Belgium | 1-5 | group | 7.64 |
-| 40 | 2026-06-15 | Belgium vs Egypt | 1-1 | group | 7.63 |
-| 41 | 2026-06-15 | Saudi Arabia vs Uruguay | 1-1 | group | 7.63 |
-| 42 | 2026-06-25 | Japan vs Sweden | 1-1 | group | 7.63 |
-| 43 | 2026-06-18 | Czech Republic vs South Africa | 1-1 | group | 7.62 |
-| 44 | 2026-06-30 | France vs Sweden | 3-0 | R32 | 7.61 |
-| 45 | 2026-07-02 | Switzerland vs Algeria | 2-0 | R32 | 7.61 |
+| 33 | 2026-07-06 | United States vs Belgium | 1-4 | R16 | 7.98 |
+| 34 | 2026-06-12 | Canada vs Bosnia-Herzegovina | 1-1 | group | 7.85 |
+| 35 | 2026-06-24 | Scotland vs Brazil | 0-3 | group | 7.84 |
+| 36 | 2026-06-13 | Brazil vs Morocco | 1-1 | group | 7.82 |
+| 37 | 2026-06-20 | Ecuador vs Curaçao | 0-0 | group | 7.82 |
+| 38 | 2026-06-13 | Australia vs Türkiye | 2-0 | group | 7.70 |
+| 39 | 2026-06-26 | Norway vs France | 1-4 | group | 7.68 |
+| 40 | 2026-06-26 | New Zealand vs Belgium | 1-5 | group | 7.64 |
+| 41 | 2026-06-15 | Belgium vs Egypt | 1-1 | group | 7.63 |
+| 42 | 2026-06-15 | Saudi Arabia vs Uruguay | 1-1 | group | 7.63 |
+| 43 | 2026-06-25 | Japan vs Sweden | 1-1 | group | 7.63 |
+| 44 | 2026-06-18 | Czech Republic vs South Africa | 1-1 | group | 7.62 |
+| 45 | 2026-06-30 | France vs Sweden | 3-0 | R32 | 7.61 |
 | 46 | 2026-07-02 | Spain vs Austria | 3-0 | R32 | 7.61 |
-| 47 | 2026-07-04 | Canada vs Morocco | 0-3 | R16 | 7.61 |
-| 48 | 2026-06-17 | Ghana vs Panama | 1-0 | group | 7.60 |
-| 49 | 2026-06-26 | Cape Verde Islands vs Saudi Arabia | 0-0 | group | 7.57 |
-| 50 | 2026-06-13 | Qatar vs Switzerland | 1-1 | group | 7.55 |
-| 51 | 2026-07-03 | Colombia vs Ghana | 1-0 | R32 | 7.53 |
-| 52 | 2026-06-14 | Germany vs Curaçao | 7-1 | group | 7.49 |
-| 53 | 2026-07-01 | United States vs Bosnia-Herzegovina | 2-0 | R32 | 7.45 |
-| 54 | 2026-06-20 | Netherlands vs Sweden | 5-1 | group | 7.45 |
-| 55 | 2026-06-30 | Mexico vs Ecuador | 2-0 | R32 | 7.42 |
-| 56 | 2026-06-24 | Switzerland vs Canada | 2-1 | group | 7.41 |
-| 57 | 2026-06-12 | United States vs Paraguay | 4-1 | group | 7.40 |
-| 58 | 2026-06-24 | South Africa vs South Korea | 1-0 | group | 7.40 |
-| 59 | 2026-06-18 | Switzerland vs Bosnia-Herzegovina | 4-1 | group | 7.36 |
-| 60 | 2026-07-04 | Paraguay vs France | 0-1 | R16 | 7.35 |
-| 61 | 2026-06-19 | Türkiye vs Paraguay | 0-1 | group | 7.33 |
-| 62 | 2026-06-21 | Belgium vs Iran | 0-0 | group | 7.30 |
-| 63 | 2026-06-18 | Mexico vs South Korea | 1-0 | group | 7.29 |
-| 64 | 2026-06-27 | Colombia vs Portugal | 0-0 | group | 7.29 |
-| 65 | 2026-06-16 | Iraq vs Norway | 1-4 | group | 7.24 |
-| 66 | 2026-06-24 | Bosnia-Herzegovina vs Qatar | 3-1 | group | 7.22 |
-| 67 | 2026-06-22 | Argentina vs Austria | 2-0 | group | 7.21 |
-| 68 | 2026-06-15 | Spain vs Cape Verde Islands | 0-0 | group | 7.17 |
-| 69 | 2026-06-27 | Panama vs England | 0-2 | group | 7.14 |
-| 70 | 2026-06-27 | Croatia vs Ghana | 2-1 | group | 7.13 |
-| 71 | 2026-06-23 | Panama vs Croatia | 0-1 | group | 7.13 |
-| 72 | 2026-06-23 | Portugal vs Uzbekistan | 5-0 | group | 7.10 |
-| 73 | 2026-06-13 | Haiti vs Scotland | 0-1 | group | 7.10 |
-| 74 | 2026-06-24 | Czech Republic vs Mexico | 0-3 | group | 7.09 |
-| 75 | 2026-06-17 | Portugal vs Congo DR | 1-1 | group | 7.06 |
-| 76 | 2026-06-14 | Sweden vs Tunisia | 5-1 | group | 7.05 |
-| 77 | 2026-06-18 | Canada vs Qatar | 6-0 | group | 7.03 |
-| 78 | 2026-06-17 | Uzbekistan vs Colombia | 1-3 | group | 6.99 |
-| 79 | 2026-06-19 | Scotland vs Morocco | 0-1 | group | 6.86 |
-| 80 | 2026-06-26 | Senegal vs Iraq | 5-0 | group | 6.83 |
-| 81 | 2026-06-22 | France vs Iraq | 3-0 | group | 6.52 |
-| 82 | 2026-06-25 | Paraguay vs Australia | 0-0 | group | 6.52 |
-| 83 | 2026-06-23 | Colombia vs Congo DR | 1-0 | group | 6.47 |
-| 84 | 2026-06-26 | Uruguay vs Spain | 0-1 | group | 6.42 |
-| 85 | 2026-06-27 | Jordan vs Argentina | 1-3 | group | 6.41 |
-| 86 | 2026-06-19 | United States vs Australia | 2-0 | group | 6.36 |
-| 87 | 2026-06-21 | Spain vs Saudi Arabia | 4-0 | group | 6.29 |
-| 88 | 2026-06-25 | Tunisia vs Netherlands | 1-3 | group | 6.27 |
-| 89 | 2026-06-25 | Curaçao vs Côte d'Ivoire | 0-2 | group | 6.02 |
-| 90 | 2026-06-23 | England vs Ghana | 0-0 | group | 6.00 |
-| 91 | 2026-06-16 | Argentina vs Algeria | 3-0 | group | 5.76 |
-| 92 | 2026-06-19 | Brazil vs Haiti | 3-0 | group | 5.72 |
-| 93 | 2026-06-20 | Tunisia vs Japan | 0-4 | group | 5.01 |
-| 94 | 2026-06-11 | Mexico vs South Africa | 2-0 | group | 3.33 |
+| 47 | 2026-07-02 | Switzerland vs Algeria | 2-0 | R32 | 7.61 |
+| 48 | 2026-07-04 | Canada vs Morocco | 0-3 | R16 | 7.61 |
+| 49 | 2026-06-17 | Ghana vs Panama | 1-0 | group | 7.60 |
+| 50 | 2026-06-26 | Cape Verde Islands vs Saudi Arabia | 0-0 | group | 7.57 |
+| 51 | 2026-06-13 | Qatar vs Switzerland | 1-1 | group | 7.55 |
+| 52 | 2026-07-03 | Colombia vs Ghana | 1-0 | R32 | 7.53 |
+| 53 | 2026-06-14 | Germany vs Curaçao | 7-1 | group | 7.49 |
+| 54 | 2026-07-01 | United States vs Bosnia-Herzegovina | 2-0 | R32 | 7.45 |
+| 55 | 2026-06-20 | Netherlands vs Sweden | 5-1 | group | 7.45 |
+| 56 | 2026-06-30 | Mexico vs Ecuador | 2-0 | R32 | 7.42 |
+| 57 | 2026-06-24 | Switzerland vs Canada | 2-1 | group | 7.41 |
+| 58 | 2026-06-12 | United States vs Paraguay | 4-1 | group | 7.40 |
+| 59 | 2026-06-24 | South Africa vs South Korea | 1-0 | group | 7.40 |
+| 60 | 2026-06-18 | Switzerland vs Bosnia-Herzegovina | 4-1 | group | 7.36 |
+| 61 | 2026-07-04 | Paraguay vs France | 0-1 | R16 | 7.35 |
+| 62 | 2026-06-19 | Türkiye vs Paraguay | 0-1 | group | 7.33 |
+| 63 | 2026-06-21 | Belgium vs Iran | 0-0 | group | 7.30 |
+| 64 | 2026-06-18 | Mexico vs South Korea | 1-0 | group | 7.29 |
+| 65 | 2026-06-27 | Colombia vs Portugal | 0-0 | group | 7.29 |
+| 66 | 2026-06-16 | Iraq vs Norway | 1-4 | group | 7.24 |
+| 67 | 2026-06-24 | Bosnia-Herzegovina vs Qatar | 3-1 | group | 7.22 |
+| 68 | 2026-06-22 | Argentina vs Austria | 2-0 | group | 7.21 |
+| 69 | 2026-06-15 | Spain vs Cape Verde Islands | 0-0 | group | 7.17 |
+| 70 | 2026-06-27 | Panama vs England | 0-2 | group | 7.14 |
+| 71 | 2026-06-27 | Croatia vs Ghana | 2-1 | group | 7.13 |
+| 72 | 2026-06-23 | Panama vs Croatia | 0-1 | group | 7.13 |
+| 73 | 2026-06-23 | Portugal vs Uzbekistan | 5-0 | group | 7.10 |
+| 74 | 2026-06-13 | Haiti vs Scotland | 0-1 | group | 7.10 |
+| 75 | 2026-06-24 | Czech Republic vs Mexico | 0-3 | group | 7.09 |
+| 76 | 2026-06-17 | Portugal vs Congo DR | 1-1 | group | 7.06 |
+| 77 | 2026-06-14 | Sweden vs Tunisia | 5-1 | group | 7.05 |
+| 78 | 2026-06-18 | Canada vs Qatar | 6-0 | group | 7.03 |
+| 79 | 2026-06-17 | Uzbekistan vs Colombia | 1-3 | group | 6.99 |
+| 80 | 2026-06-19 | Scotland vs Morocco | 0-1 | group | 6.86 |
+| 81 | 2026-06-26 | Senegal vs Iraq | 5-0 | group | 6.83 |
+| 82 | 2026-06-22 | France vs Iraq | 3-0 | group | 6.52 |
+| 83 | 2026-06-25 | Paraguay vs Australia | 0-0 | group | 6.52 |
+| 84 | 2026-06-23 | Colombia vs Congo DR | 1-0 | group | 6.47 |
+| 85 | 2026-06-26 | Uruguay vs Spain | 0-1 | group | 6.42 |
+| 86 | 2026-06-27 | Jordan vs Argentina | 1-3 | group | 6.41 |
+| 87 | 2026-06-19 | United States vs Australia | 2-0 | group | 6.36 |
+| 88 | 2026-06-21 | Spain vs Saudi Arabia | 4-0 | group | 6.29 |
+| 89 | 2026-06-25 | Tunisia vs Netherlands | 1-3 | group | 6.27 |
+| 90 | 2026-06-25 | Curaçao vs Côte d'Ivoire | 0-2 | group | 6.02 |
+| 91 | 2026-06-23 | England vs Ghana | 0-0 | group | 6.00 |
+| 92 | 2026-06-16 | Argentina vs Algeria | 3-0 | group | 5.76 |
+| 93 | 2026-06-19 | Brazil vs Haiti | 3-0 | group | 5.72 |
+| 94 | 2026-06-20 | Tunisia vs Japan | 0-4 | group | 5.01 |
+| 95 | 2026-06-11 | Mexico vs South Africa | 2-0 | group | 3.33 |
 
 G1/G2/G3 denote group-stage matchdays. The five-bucket decomposition and both deduction
 line items for every match are in `data/wc2026_board.csv`.
