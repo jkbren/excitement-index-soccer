@@ -53,6 +53,10 @@ _RESTART_PASS = frozenset({"corner", "free kick", "goal kick", "kick off", "thro
 _RESTART_SHOT = frozenset({"corner", "free kick", "kick off", "penalty"})
 _STOP_EVENTS = frozenset({"offside", "injury stoppage", "own goal against", "own goal for"})
 _PASS_STOP = frozenset({"out", "injury clearance", "pass offside"})
+# Out-like outcome tokens (normalized) that mark the ball leaving play. Each token
+# comes from a different outcome column: plain "out" appears on goalkeeper_outcome /
+# interception_outcome; "lost out" and "success out" are duel_outcome values (a duel
+# lost/won that put the ball out); "punched out" is a goalkeeper_outcome value.
 _GENERIC_OUT = frozenset({"out", "lost out", "success out", "punched out"})
 # Non-pass/non-shot outcome fields checked for out-like values (the original
 # normalizer carries exactly these three onto its internal event table).
@@ -60,6 +64,7 @@ _GENERIC_OUTCOME_COLS = ("goalkeeper_outcome", "duel_outcome", "interception_out
 
 
 def _isna(v: Any) -> bool:
+    """True for None or a float NaN (``v != v``); used to gate the coercers below."""
     return v is None or (isinstance(v, float) and v != v)
 
 
@@ -75,6 +80,14 @@ def _norm(v: Any) -> str | None:
 
 
 def _num(v: Any) -> float | None:
+    """Coerce a value to float, or None when missing or non-numeric.
+
+    Args:
+        v: any cell value (numeric, string, None, or NaN).
+
+    Returns:
+        The value as a float, or None if it is missing or cannot be parsed.
+    """
     if _isna(v):
         return None
     try:
@@ -84,6 +97,18 @@ def _num(v: Any) -> float | None:
 
 
 def _bool(v: Any) -> bool | None:
+    """Coerce a value to a tristate bool, or None when the truth value is unknown.
+
+    Args:
+        v: any cell value. Real bools pass through; strings are matched
+            case-insensitively against a small true/false vocabulary
+            ("true"/"1"/"yes"/"t" vs "false"/"0"/"no"/"f"/"").
+
+    Returns:
+        True/False when the value resolves cleanly, or None when it is missing
+        or is a string outside the recognized vocabulary. The tristate matters:
+        callers test ``is True`` so an unknown flag never counts as set.
+    """
     if _isna(v):
         return None
     if isinstance(v, bool):
@@ -135,17 +160,54 @@ class _View:
 
 
 def _make_view(rec: dict[str, Any]) -> _View:
+    """Pre-classify one raw event record into the flags the v3 estimate reads.
+
+    Args:
+        rec: one event row as a dict (a single record from the wide event frame),
+            carrying at least ``timestamp``, ``duration``, ``type`` and the
+            pass/shot/foul/outcome columns referenced below.
+
+    Returns:
+        A :class:`_View` whose flags drive dead-time pairing:
+
+        * ``is_restart`` — the event puts the ball back in play (a Referee
+          Ball-Drop; a pass of type Corner/Free Kick/Goal Kick/Kick Off/Throw-in;
+          a direct set-piece shot). Restarts close the dead interval that
+          preceded them.
+        * ``is_ambiguous`` — a pass with outcome Unknown, i.e. a foul called
+          mid-flight. Such a pass is a stop but its duration cannot be trusted,
+          so it is excluded from ``is_clear_final_stop`` (see below) and its
+          end time falls back to its start in :func:`_event_end`.
+        * ``is_admin`` — a non-play bookkeeping event (lineup/tactics/subs/cards/
+          camera) that is transparently skipped when pairing backward.
+        * ``is_boundary`` — a Half Start / Half End marker, also skipped when
+          pairing backward.
+        * ``is_half_end`` — the Half End marker, used to fix the period end time.
+        * ``is_clear_final_stop`` — a stop marker that is trustworthy as the
+          period's final event (ball out, goal, offside/injury/own-goal event,
+          a foul without advantage, an out-like pass or generic outcome). It
+          excludes ambiguous Unknown passes precisely because their end time is
+          untrustworthy, which would misplace the final dead gap.
+
+    A foul only counts as a stop when the referee did NOT play advantage
+    (``foul_committed_advantage`` / ``foul_won_advantage``), since an advantage
+    means play continued.
+    """
     etn = _norm(rec.get("type"))
     ptn = _norm(rec.get("pass_type"))
     pon = _norm(rec.get("pass_outcome"))
     stn = _norm(rec.get("shot_type"))
     son = _norm(rec.get("shot_outcome"))
+    # A restart is any event that puts the ball back into play.
     is_restart = (etn == "referee ball drop"
                   or (etn == "pass" and ptn in _RESTART_PASS)
                   or (etn == "shot" and stn in _RESTART_SHOT))
+    # Pass cut off mid-flight by a foul: a stop, but its duration is unreliable.
     is_ambiguous = etn == "pass" and pon == "unknown"
+    # Referee waved play on: the foul did not actually stop the ball.
     advantage = (_bool(rec.get("foul_committed_advantage")) is True
                  or _bool(rec.get("foul_won_advantage")) is True)
+    # Any signal that the ball went dead on this event.
     is_stop = (_bool(rec.get("out")) is True
                or (etn == "shot" and son == "goal")
                or etn in _STOP_EVENTS
@@ -193,11 +255,26 @@ def _period_end(views: list[_View]) -> float:
 
 
 def _dead_intervals(views: list[_View], period_end: float) -> list[float]:
-    """Per-interval dead seconds (each rounded to ms, as the original records them)."""
+    """Dead-time seconds for one period, one entry per counted dead interval.
+
+    Args:
+        views: the period's events, in play order, already classified by
+            :func:`_make_view`.
+        period_end: the period's end time in seconds (from :func:`_period_end`).
+
+    Returns:
+        A list of dead-interval lengths in seconds, each rounded to milliseconds
+        (3 dp, matching how the original package records them). One entry per
+        restart that closed a gap, plus at most one trailing "final dead gap".
+    """
     out: list[float] = []
     restarts = [i for i, v in enumerate(views) if v.is_restart]
     for ri in restarts[1:]:              # a period's opening restart is never dead time
         restart = views[ri]
+        # Walk back to the previous meaningful event, skipping only admin and
+        # boundary rows. The walk intentionally stops at (and pairs against) a
+        # preceding restart: two adjacent restarts are a valid meaningful pair,
+        # so the gap between them is a counted dead interval, not a bug.
         j = ri - 1
         while j >= 0 and (views[j].is_admin or views[j].is_boundary):
             j -= 1
@@ -212,6 +289,9 @@ def _dead_intervals(views: list[_View], period_end: float) -> list[float]:
         out.append(round(dead, 3))
     # Final dead gap: a clear stop with no restart before the period end.
     if period_end == period_end:
+        # Find the last meaningful event of the period. Skip NaN-timestamp,
+        # admin and boundary rows; the ``+ 1e-9`` is float slack so an event
+        # landing exactly on period_end is not skipped by rounding jitter.
         last = None
         for v in reversed(views):
             if v.t != v.t or v.t > period_end + 1e-9 or v.is_admin or v.is_boundary:
@@ -228,12 +308,31 @@ def _dead_intervals(views: list[_View], period_end: float) -> list[float]:
 def match_ball_in_play(events: pd.DataFrame) -> dict[str, Any] | None:
     """Per-match ball-in-play timing (total + per period) from an event frame.
 
-    ``events`` is the wide event frame (:func:`opendata.load_events`); it must
-    carry ``timestamp``, ``duration``, ``type``, ``period`` and the restart /
-    stop-marker columns for the estimate to be meaningful. Extra time is
-    included when periods 3/4 are present; the shootout is always excluded.
-    Returns ``None`` (never raises) when no estimate can be produced.
+    Args:
+        events: the wide event frame (:func:`opendata.load_events`). It must
+            carry ``timestamp``, ``duration``, ``type``, ``period`` and the
+            restart / stop-marker columns for the estimate to be meaningful.
+            Rows are re-sorted internally by (period, timestamp, index), so
+            input order does not matter. Extra time is included when periods
+            3/4 are present; the shootout (period 5) is always excluded.
+
+    Returns:
+        A dict, or None when no estimate can be produced (empty frame, no
+        usable periods, or zero elapsed time). The dict has:
+
+        * ``variant`` — the estimator id (:data:`VARIANT`).
+        * ``total`` — ``{"bip_s", "elapsed_s", "bip_pct"}`` across all counted
+          periods; ``bip_pct`` is ball-in-play seconds as a percent of elapsed.
+        * ``per_period`` — one such block per period, plus ``period`` and a
+          human ``label``; a period's ``bip_pct`` is None when its elapsed is 0.
+
+    Seconds are decimal (never divided by 1000) and all outputs are rounded to
+    milliseconds (3 dp). This function never raises: any failure returns None.
     """
+    # Wrapped so the estimator degrades to "no estimate" (None) rather than
+    # propagating. Trade-off: this also swallows genuine programming errors
+    # (e.g. a schema/column regression), which then look like a benign None
+    # instead of surfacing — worth knowing when a match unexpectedly has no BIP.
     try:
         if events is None or len(events) == 0:
             return None
@@ -295,4 +394,5 @@ def match_ball_in_play(events: pd.DataFrame) -> dict[str, Any] | None:
             "per_period": per_period,
         }
     except Exception:
+        # See the note at the top of the try: any error is reported as "no estimate".
         return None

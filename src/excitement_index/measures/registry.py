@@ -36,7 +36,40 @@ _REGISTRY: dict[str, dict] = {}
 
 @dataclass
 class MatchContext:
-    """Shared per-match inputs, computed once and handed to every measure."""
+    """Shared per-match inputs, computed once and handed to every measure.
+
+    The pipeline builds one instance per match and passes it to every registered
+    measure, so expensive shared state (the clocked event stream, the shots
+    subset, the win-probability curve, the Elo context) is computed a single time
+    rather than once per measure.
+
+    Attributes:
+        ev: Playable events (regulation + extra time, shootout removed) carrying
+            the ``_t`` minute clock.
+        home: Home team name as it appears in the event feed.
+        away: Away team name as it appears in the event feed.
+        end: Match end minute — 90 for a regulation game, 120 when extra time was
+            played.
+        shots: The ``ev[type == "Shot"]`` subset, precomputed for shot measures.
+        wp: Goals-only Skellam home/draw/away win-probability curve over the
+            match clock.
+        events_all: Unfiltered events including the shootout, kept so measures
+            such as ``shootout_drama`` can see kicks that ``ev`` drops.
+        stage: Fixture-sheet stage string, lower-cased (e.g. ``"group"``,
+            ``"round of 16"``). Defaults to ``"group"``.
+        prior_home: Elo-derived per-minute scoring rate for the home team; None
+            when Elo ratings are unavailable.
+        prior_away: Elo-derived per-minute scoring rate for the away team; None
+            when Elo ratings are unavailable.
+        elo_ctx: Pregame Elo->Skellam context dict; None without Elo. When
+            present it carries at least ``"elo_gap"`` (signed Elo points,
+            home minus away) and ``"entropy"`` (normalized outcome entropy) —
+            the keys ``prematch.py`` reads.
+        row: The fixture-sheet row (final scores, curated card counts, host
+            flags, ...); None for a match not on the sheet.
+        cache: Scratch dict shared between measures within one match, so a
+            derived quantity (e.g. card counts) is computed once and reused.
+    """
 
     ev: pd.DataFrame                    # playable events with the _t clock
     home: str
@@ -54,8 +87,22 @@ class MatchContext:
 
 
 def measure(name: str, *, tier: str = "core") -> Callable:
-    """Register a measure function under ``name``. The function takes a
-    :class:`MatchContext` and returns a float (``nan`` = unavailable)."""
+    """Register a measure function under ``name``.
+
+    Args:
+        name: Registry key for the measure; must be unique.
+        tier: Input requirement tier. ``"core"`` computes on any StatsBomb feed;
+            ``"context"`` needs Elo ratings; ``"extended"`` needs OBV columns.
+
+    Returns:
+        The decorator that inserts the wrapped function into ``_REGISTRY`` and
+        returns it unchanged. The wrapped function takes a :class:`MatchContext`
+        and returns a float (``nan`` = inputs unavailable).
+
+    Raises:
+        ValueError: If ``name`` is already registered (duplicate keys would let
+            one measure silently shadow another).
+    """
     def deco(fn: Callable) -> Callable:
         if name in _REGISTRY:
             raise ValueError(f"measure {name!r} is already registered")
@@ -65,18 +112,38 @@ def measure(name: str, *, tier: str = "core") -> Callable:
 
 
 def registered_measures() -> dict[str, dict]:
-    """The full registry (import ``excitement_index.measures`` first so every
-    family module has run its decorators)."""
+    """Return a shallow copy of the full registry.
+
+    Returns:
+        A ``name -> {"fn", "tier"}`` dict. Import ``excitement_index.measures``
+        first so every family module has run its ``@measure`` decorators and the
+        registry is fully populated.
+    """
     return dict(_REGISTRY)
 
 
 def compute_all(ctx: MatchContext) -> dict[str, float]:
-    """Run every registered measure on one match. A measure that raises is
-    recorded as ``nan`` rather than sinking the whole match."""
+    """Run every registered measure on one match.
+
+    Args:
+        ctx: The shared :class:`MatchContext` for the match.
+
+    Returns:
+        A ``name -> value`` dict with one entry per registered measure. A measure
+        that raises is recorded as ``nan`` rather than aborting the whole match,
+        and downstream a ``nan`` simply drops out of its family's mean.
+    """
     out: dict[str, float] = {}
     for name, meta in _REGISTRY.items():
         try:
             out[name] = float(meta["fn"](ctx))
+        # A measure typically raises because its inputs are absent for this feed
+        # (missing OBV columns, no Elo table, an empty shots frame) — an expected
+        # "unavailable" that must map to nan so the family mean skips it. The same
+        # broad catch also swallows genuine bugs (a mistyped ctx key, a schema
+        # change), which then surface silently as nan; when debugging a measure
+        # that reads as unexpectedly nan, temporarily re-raise here to see the
+        # traceback rather than trusting this fallback.
         except Exception:
             out[name] = float(np.nan)
     return out

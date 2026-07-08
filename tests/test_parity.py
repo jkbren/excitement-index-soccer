@@ -22,12 +22,27 @@ FIXTURE_DIR = Path(__file__).parent / "fixtures"
 os.environ.setdefault("EXCITEMENT_INDEX_CACHE",
                       str(Path(__file__).parent.parent / ".opendata_cache"))
 
-# fixture stage strings (open-data competition_stage names, lower-cased)
+# Maps each fixture match_id to its open-data competition_stage name, lower-cased.
+# extract_features needs the stage on the input row; the fixtures store it out of band
+# because the reference implementation keyed on the same lower-cased strings.
 STAGES = {3869685: "final", 3869321: "quarter-finals", 3869420: "quarter-finals",
           3857265: "group stage", 3857291: "group stage", 7580: "round of 16"}
 
-# Columns in the fixtures that are metadata or unscored private-side extras the
-# public package intentionally does not compute.
+# Fixture columns the parity check does NOT compare. Two disjoint reasons, both benign:
+#
+#   1. Pure match metadata that the reference stored alongside the scored measures but
+#      that the public package never treats as a measure:
+#          match_id, slug, home, away, stage, match_date
+#
+#   2. Unscored private-side "extras" — measures the private reference emitted but that
+#      this public port intentionally does not implement, so they never appear in `got`.
+#      Listing them here documents the deliberate omissions and keeps a future measure
+#      addition from being silently graded against a value the port was never meant to
+#      reproduce. Examples: live_suspense / live_closeness (in-play win-probability
+#      series unavailable in open data), obv_volatility / leverage_saves /
+#      postshot_xg_minus_goals (need OBV / post-shot-xG fields absent from open events),
+#      shootout_drama_scaled / went_to_et_pens / shootout (shootout-only signals),
+#      qualification_jeopardy (Monte-Carlo, tested separately in test_jeopardy.py).
 SKIP_KEYS = {"match_id", "slug", "qualification_jeopardy",
              "gei_late_weighted", "take_on_volume", "missed_chance_leverage",
              "obv_volatility", "went_to_et_pens", "live_suspense", "live_closeness",
@@ -38,41 +53,78 @@ SKIP_KEYS = {"match_id", "slug", "qualification_jeopardy",
 
 
 def _fixtures():
+    """List the per-match golden fixture paths, excluding the whole-tournament board.
+
+    Returns:
+        list[str]: Sorted paths to the per-match fixture JSONs under fixtures/. The
+        wc2022_board.json oracle is filtered out here because it drives the separate
+        slow end-to-end test, not the per-match parametrization.
+    """
     return [p for p in sorted(glob.glob(str(FIXTURE_DIR / "*.json")))
             if not p.endswith("wc2022_board.json")]
 
 
 def _load_events_or_skip(match_id):
+    """Load open-data events for one match, or skip the test if they cannot be fetched.
+
+    Args:
+        match_id (int): StatsBomb open-data match id.
+
+    Returns:
+        pandas.DataFrame: The match event frame from excitement_index.opendata.
+
+    The broad ``except Exception`` is deliberately wide because the intended trigger is
+    "running offline with a cold cache" (a network/IO failure inside load_events), and the
+    aim is a graceful skip in that setup rather than a hard failure. The trade-off is that
+    a genuine parsing/logic bug in load_events is also caught and reported as a skip rather
+    than surfacing as an error.
+    """
     from excitement_index import opendata
     try:
         return opendata.load_events(match_id)
-    except Exception as e:  # offline and uncached
+    except Exception as e:  # treated as "offline and uncached"; see docstring caveat
         pytest.skip(f"open data unavailable ({e})")
 
 
 @pytest.mark.parametrize("path", _fixtures(), ids=lambda p: Path(p).stem)
 def test_measure_parity(path):
+    """Assert every scored measure for one fixture match matches the reference value.
+
+    Args:
+        path (str): Path to one per-match fixture JSON (supplied by the parametrization).
+
+    Each fixture holds the reference "features" dict plus match metadata. The test recomputes
+    the features from cached open-data events and compares, skipping SKIP_KEYS and any name the
+    port does not emit. NaN must match NaN; finite values match within a relative tolerance.
+    """
     from excitement_index import extract_features, opendata
 
     fx = json.load(open(path))
     ev = _load_events_or_skip(fx["match_id"])
+    # Fixture "score" is always the plain regulation "H-A" two-integer string (e.g. "3-3");
+    # it never carries a shootout annotation like "3-3 (4-2)", so a two-way int split is safe.
     sh, sa = (int(x) for x in fx["score"].split("-"))
     row = pd.Series({"home": fx["home"], "away": fx["away"],
                      "score_home": sh, "score_away": sa,
                      "stage": STAGES[fx["match_id"]]})
     got = extract_features(ev, row, elo=opendata.load_elo())
 
+    # Collect every disagreement, then assert once, so a failure reports all of them together.
     mismatches = []
     for name, want in fx["features"].items():
         if name in SKIP_KEYS or name not in got:
             continue
         g = got[name]
         if want is None:
+            # Reference emitted NaN/None -> the port must also be missing (None or NaN).
             if not (g is None or (isinstance(g, float) and math.isnan(g))):
                 mismatches.append(f"{name}: expected NaN, got {g}")
         else:
+            # Reference emitted a finite value -> the port must, too, within tolerance.
             if g is None or (isinstance(g, float) and math.isnan(g)):
                 mismatches.append(f"{name}: expected {want}, got NaN")
+            # Relative tolerance of 1e-6, floored at absolute 1e-6 so near-zero values still
+            # compare sensibly rather than demanding exact float equality across platforms.
             elif abs(float(g) - float(want)) > 1e-6 * max(1.0, abs(float(want))):
                 mismatches.append(f"{name}: got {g!r}, want {want!r}")
     assert not mismatches, f"{Path(path).stem}: {len(mismatches)} mismatches\n" + "\n".join(mismatches)
@@ -91,22 +143,31 @@ def test_all_taxonomy_measures_are_registered():
 
 @pytest.mark.skipif(not os.environ.get("RUN_SLOW"), reason="set RUN_SLOW=1 for the full-tournament test")
 def test_wc2022_board_end_to_end():
-    """The whole 2022 World Cup, end to end, against the reference board
-    (raw scores and the resulting ranking). Slow: fetches and processes all 64
-    matches (~10 min cold)."""
+    """Reproduce the full 2022 World Cup board — raw scores and ranking — against the oracle.
+
+    Runs the whole pipeline (feature matrix -> scoring) over all 64 matches and compares each
+    match's raw score and the top-of-board ordering to the reference wc2022_board.json. Slow
+    (~10 min cold, since it fetches and processes every match), so it is gated behind RUN_SLOW.
+    """
     from excitement_index import build_feature_matrix, opendata, score_matches
 
     oracle = json.load(open(FIXTURE_DIR / "wc2022_board.json"))
     matches = opendata.load_matches("FIFA World Cup", "2022")
+    # jeopardy=False keeps this deterministic; the Monte-Carlo jeopardy path is tested separately.
     fm = build_feature_matrix(matches, opendata.load_events,
                               elo=opendata.load_elo(), jeopardy=False)
+    # The scale is anchored on the group-stage matches only, using the oracle's stored floor,
+    # so the reproduced board is normalized against exactly the same reference set.
     grp = [b["match_id"] for b in oracle["board"] if b["stage"] == "group"]
     board = score_matches(fm, reference_ids=grp, floor=oracle["floor_m"])
     want = {b["match_id"]: b for b in oracle["board"]}
+    # Per-match raw scores must match within 5e-4 (looser than the per-measure parity tolerance
+    # because raw is a weighted rollup of many measures and accumulates rounding).
     for mid, b in want.items():
         assert abs(board.loc[mid, "raw"] - b["raw"]) < 5e-4, \
             f"{b['home']}-{b['away']}: raw {board.loc[mid, 'raw']:.4f} vs oracle {b['raw']:.4f}"
     got_order = list(board.index)
     want_order = [b["match_id"] for b in oracle["board"]]
+    # Only the top 10 ordering is pinned; lower ranks can tie/permute without editorial impact.
     assert got_order[:10] == want_order[:10], "top-10 ordering diverged from the oracle"
     assert got_order[0] == 3869685, "Argentina-France 2022 must rank #1"
