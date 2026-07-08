@@ -229,6 +229,21 @@ pip install -e ".[dev]"
 pytest
 ```
 
+## Author
+
+**Brennan Klein** is an Assistant Teaching Professor in the Department of Physics at
+Northeastern University and core faculty at the Network Science Institute, where he
+directs the Complexity & Society Lab and the MS in Complex Network Analysis program. His
+research is in network science, complex systems, and causal inference, with applications
+in public health and social systems. He built this index for NetSI Sport's coverage of
+the 2026 World Cup with Northeastern Global News.
+
+- Website: [brennanklein.com](https://brennanklein.com)
+- Bluesky: [@jkbren.bsky.social](https://bsky.app/profile/jkbren.bsky.social)
+- GitHub: [@jkbren](https://github.com/jkbren)
+- Google Scholar: [profile](https://scholar.google.com/citations?user=bI9X9PIAAAAJ)
+- Email: [b.klein@northeastern.edu](mailto:b.klein@northeastern.edu)
+
 ## Citation
 
 > NetSI Sport (2026). The NetSI match excitement index. Network Science
