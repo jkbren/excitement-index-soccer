@@ -1,9 +1,9 @@
-# excitement-index-soccer
+# Quantifying "Exciting" Soccer Games (or trying to...)
 
 A 0-10 excitement rating for soccer matches, computed from StatsBomb event data. This
 repository contains the open implementation of the match excitement index built by NetSI
 Sport (Northeastern University Network Science Institute) for Northeastern Global News'
-coverage of the 2026 FIFA World Cup (version 1.4, the index behind the published board).
+coverage of the 2026 FIFA World Cup.
 
 The rating is a weighted linear composite of approximately 57 per-match measures,
 standardized against a tournament benchmark, with two rule-based deductions for the
