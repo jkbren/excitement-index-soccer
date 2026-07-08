@@ -5,6 +5,9 @@ repository contains the open implementation of the match excitement index built 
 Sport (Northeastern University Network Science Institute) for Northeastern Global News'
 coverage of the 2026 FIFA World Cup.
 
+The accompanying article is published at Northeastern Global News:
+[The most exciting games of the 2026 World Cup](https://news.northeastern.edu/2026/07/08/most-exciting-world-cup-games/).
+
 The rating is a weighted linear composite of approximately 57 per-match measures. Each
 measure is standardized against a tournament benchmark. Two rule-based deductions then
 adjust the score for the match's competitive context. No parameter is fitted to fan
