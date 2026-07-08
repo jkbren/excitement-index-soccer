@@ -242,7 +242,7 @@ the 2026 World Cup with Northeastern Global News.
 - Bluesky: [@jkbren.bsky.social](https://bsky.app/profile/jkbren.bsky.social)
 - GitHub: [@jkbren](https://github.com/jkbren)
 - Google Scholar: [profile](https://scholar.google.com/citations?user=bI9X9PIAAAAJ)
-- Email: [b.klein@northeastern.edu](mailto:b.klein@northeastern.edu)
+- LinkedIn: [brennan-klein](https://www.linkedin.com/in/brennan-klein/)
 
 ## Citation
 
